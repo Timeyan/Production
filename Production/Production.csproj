@@ -213,6 +213,9 @@
     <Compile Include="CustomerMenuWindow.xaml.cs">
       <DependentUpon>CustomerMenuWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EmlpoyeeList.xaml.cs">
+      <DependentUpon>EmlpoyeeList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MenegerMenuWindow.xaml.cs">
       <DependentUpon>MenegerMenuWindow.xaml</DependentUpon>
     </Compile>
@@ -247,6 +250,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomerMenuWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EmlpoyeeList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

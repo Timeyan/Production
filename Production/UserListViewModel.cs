@@ -31,7 +31,7 @@ namespace Production
                         if (createProduct.IsSaving)
                         {
                             Users.Clear();
-                            CreateUserList();
+                            //CreateUserList();
                         }
                     }));
             }
@@ -109,10 +109,13 @@ namespace Production
             }
         }
 
-        public UserListViewModel()
+        public UserListViewModel(bool isEmployee, bool isSeller, bool isCustomer)
         {
             Users = new ObservableCollection<User>();
-            CreateUserList();
+            connectionString = "Data Source=DESKTOP-N9D0K7G;Initial Catalog=Production;Integrated Security=true;TrustServerCertificate=True";
+            if (isCustomer) CreateCustomerList();
+            if (isEmployee) CreateEmployeeList();
+            if (isSeller) CreateSellerList();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -123,9 +126,8 @@ namespace Production
         }
 
 
-        private void CreateUserList()
+        private void CreateCustomerList()
         {
-            connectionString = ConfigurationManager.ConnectionStrings["ProductionConnectionString"].ConnectionString;
             string sql = "Select UserId, CustomerId, RoleId, Role.Name, Customer.Name, LastName, PhoneNumber, Email " +
                             "from [User] join Role on IdRole = RoleID join Customer on UserId = IdUser";
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -150,71 +152,90 @@ namespace Production
 
                     reader.Close();
                 }
-                command.CommandText = "Select UserId, EmployeeId, RoleId, Role.Name, Employee.Name, LastName, PhoneNumber, " +
+            }
+        }
+        private void CreateEmployeeList()
+        {
+            string sql = "Select UserId, EmployeeId, RoleId, Role.Name, Employee.Name, LastName, PhoneNumber, " +
                     "Email, PassportNumber, BirthDate, Adress, PostCode from [User] join Role " +
                     "on IdRole = RoleID join Employee on UserId = IdUser";
-                SqlDataReader reader2 = command.ExecuteReader();
-                if (reader2.HasRows)
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
                 {
-                    while (reader2.Read())
+                    while (reader.Read())
                     {
-                        Users.Add(new User());
-                        Users.LastOrDefault().Id = (Guid)reader2.GetValue(0);
-                        Users.LastOrDefault().EmployeeId = (Guid)reader2.GetValue(1);
-                        Users.LastOrDefault().RoleId = (Guid)reader2.GetValue(2);
-                        Users.LastOrDefault().Role = (String)reader2.GetValue(3);
-                        Users.LastOrDefault().Name = (String)reader2.GetValue(4);
-                        Users.LastOrDefault().LastName = (String)reader2.GetValue(5);
-                        Users.LastOrDefault().PhoneNumber = (String)reader2.GetValue(6);
-                        Users.LastOrDefault().Email = (String)reader2.GetValue(7);
-                        Users.LastOrDefault().PassportNumberData = (String)reader2.GetValue(8);
-                        Users.LastOrDefault().PassportNumber = "Паспорт: " + Users.LastOrDefault().PassportNumberData;
-                        Users.LastOrDefault().BirthDate = (DateTime)reader2.GetValue(9);
-                        Users.LastOrDefault().BirthDateStr = "Дата рождения: " + Users.LastOrDefault().BirthDate.ToShortDateString().ToString();
-                        Users.LastOrDefault().AdressData = (String)reader2.GetValue(10);
-                        Users.LastOrDefault().Adress = "Адрес: " + Users.LastOrDefault().AdressData;
-                        Users.LastOrDefault().PostCodeData = (String)reader2.GetValue(11);
-                        Users.LastOrDefault().PostCode = "Индекс: " + Users.LastOrDefault().PostCodeData;
+                        if ((String)reader.GetValue(3) != "Seller")
+                        {
+                            Users.Add(new User());
+                            Users.LastOrDefault().Id = (Guid)reader.GetValue(0);
+                            Users.LastOrDefault().EmployeeId = (Guid)reader.GetValue(1);
+                            Users.LastOrDefault().RoleId = (Guid)reader.GetValue(2);
+                            Users.LastOrDefault().Role = (String)reader.GetValue(3);
+                            Users.LastOrDefault().Name = (String)reader.GetValue(4);
+                            Users.LastOrDefault().LastName = (String)reader.GetValue(5);
+                            Users.LastOrDefault().PhoneNumber = (String)reader.GetValue(6);
+                            Users.LastOrDefault().Email = (String)reader.GetValue(7);
+                            Users.LastOrDefault().PassportNumberData = (String)reader.GetValue(8);
+                            Users.LastOrDefault().PassportNumber = "Паспорт: " + Users.LastOrDefault().PassportNumberData;
+                            Users.LastOrDefault().BirthDate = (DateTime)reader.GetValue(9);
+                            Users.LastOrDefault().BirthDateStr = "Дата рождения: " + Users.LastOrDefault().BirthDate.ToShortDateString().ToString();
+                            Users.LastOrDefault().AdressData = (String)reader.GetValue(10);
+                            Users.LastOrDefault().Adress = "Адрес: " + Users.LastOrDefault().AdressData;
+                            Users.LastOrDefault().PostCodeData = (String)reader.GetValue(11);
+                            Users.LastOrDefault().PostCode = "Индекс: " + Users.LastOrDefault().PostCodeData;
+                        }
                     }
 
-                    reader2.Close();
+                    reader.Close();
                 }
-                command.CommandText = "Select UserId, EmployeeId, RoleId, Role.Name, Employee.Name, LastName, " +
+            }
+        }
+        private void CreateSellerList()
+        {
+            string sql = "Select UserId, EmployeeId, RoleId, Role.Name, Employee.Name, LastName, " +
                     "PhoneNumber, Email, PassportNumber, BirthDate, Employee.Adress, Employee.PostCode, " +
                     "ShopId, Shop.Name, Shop.Adress, Shop.PostCode from [User] join Role on IdRole = RoleID join Employee " +
                     "on UserId = IdUser join Shop on ShopID = IdShop";
-                SqlDataReader reader3 = command.ExecuteReader();
-                if (reader3.HasRows)
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
                 {
-                    while (reader3.Read())
+                    while (reader.Read())
                     {
                         Users.Add(new User());
-                        Users.LastOrDefault().Id = (Guid)reader3.GetValue(0);
-                        Users.LastOrDefault().EmployeeId = (Guid)reader3.GetValue(1);
-                        Users.LastOrDefault().RoleId = (Guid)reader3.GetValue(2);
-                        Users.LastOrDefault().Role = (String)reader3.GetValue(3);
-                        Users.LastOrDefault().Name = (String)reader3.GetValue(4);
-                        Users.LastOrDefault().LastName = (String)reader3.GetValue(5);
-                        Users.LastOrDefault().PhoneNumber = (String)reader3.GetValue(6);
-                        Users.LastOrDefault().Email = (String)reader3.GetValue(7);
-                        Users.LastOrDefault().PassportNumberData = (String)reader3.GetValue(8);
+                        Users.LastOrDefault().Id = (Guid)reader.GetValue(0);
+                        Users.LastOrDefault().EmployeeId = (Guid)reader.GetValue(1);
+                        Users.LastOrDefault().RoleId = (Guid)reader.GetValue(2);
+                        Users.LastOrDefault().Role = (String)reader.GetValue(3);
+                        Users.LastOrDefault().Name = (String)reader.GetValue(4);
+                        Users.LastOrDefault().LastName = (String)reader.GetValue(5);
+                        Users.LastOrDefault().PhoneNumber = (String)reader.GetValue(6);
+                        Users.LastOrDefault().Email = (String)reader.GetValue(7);
+                        Users.LastOrDefault().PassportNumberData = (String)reader.GetValue(8);
                         Users.LastOrDefault().PassportNumber = "Паспорт: " + Users.LastOrDefault().PassportNumberData;
-                        Users.LastOrDefault().BirthDate = (DateTime)reader3.GetValue(9);
+                        Users.LastOrDefault().BirthDate = (DateTime)reader.GetValue(9);
                         Users.LastOrDefault().BirthDateStr = "Дата рождения: " + Users.LastOrDefault().BirthDate.ToShortDateString().ToString();
-                        Users.LastOrDefault().AdressData = (String)reader3.GetValue(10);
+                        Users.LastOrDefault().AdressData = (String)reader.GetValue(10);
                         Users.LastOrDefault().Adress = "Адрес: " + Users.LastOrDefault().AdressData;
-                        Users.LastOrDefault().PostCodeData = (String)reader3.GetValue(11);
+                        Users.LastOrDefault().PostCodeData = (String)reader.GetValue(11);
                         Users.LastOrDefault().PostCode = "Индекс: " + Users.LastOrDefault().PostCodeData;
                         Users.LastOrDefault().ShopObj = new Shop
                         {
-                            Id = (Guid)reader3.GetValue(12),
-                            Name = (String)reader3.GetValue(13),
-                            Adress = (String)reader3.GetValue(13),
-                            PostCode = (String)reader3.GetValue(13)
+                            Id = (Guid)reader.GetValue(12),
+                            Name = (String)reader.GetValue(13),
+                            Adress = (String)reader.GetValue(13),
+                            PostCode = (String)reader.GetValue(13)
                         };
                     }
 
-                    reader3.Close();
+                    reader.Close();
                 }
             }
         }

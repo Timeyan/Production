@@ -15,14 +15,29 @@ using System.Windows.Shapes;
 namespace Production
 {
     /// <summary>
-    /// Interaction logic for UserList.xaml
+    /// Interaction logic for EmlpoyeeList.xaml
     /// </summary>
-    public partial class UserList : Window
+    public partial class EmlpoyeeList : Window
     {
-        public UserList()
+        public EmlpoyeeList()
         {
             InitializeComponent();
-            DataContext = new UserListViewModel(true, true, true);
+            DataContext = new UserListViewModel(true, true, false);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

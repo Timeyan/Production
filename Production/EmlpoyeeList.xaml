@@ -1,0 +1,96 @@
+﻿<Window x:Class="Production.EmlpoyeeList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Production"
+        mc:Ignorable="d"
+        Title="Сотрудники" Height="458.762" Width="800"       
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+    </Window.Resources>
+    <Grid Margin="-2,0,-3.429,1.143">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="#FFF1FAEE" Offset="1"/>
+                <GradientStop Color="#FFA8DADC" Offset="0.182"/>
+                <GradientStop Color="#FF457B9D"/>
+                <GradientStop Color="#FFA8DADC" Offset="0.49"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="374.857" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Border MinWidth="200" MaxWidth="800" MinHeight="200" MaxHeight="900" Margin="22,18,10,21.714" Background="#a8dadc" VerticalAlignment="Center" Padding="8" CornerRadius="20">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" Color="Gray" ShadowDepth="2"/>
+            </Border.Effect>
+            <ListBox Grid.Column="10" ItemsSource="{Binding Users}"
+                 SelectedItem="{Binding SelectedUser}" Margin="2,2,-0.143,2.286">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontSize="18" Grid.Column="0" Text="{Binding Path=Name}" />
+                                <TextBlock FontSize="18" Grid.Column="2" Text="{Binding Path=LastName}" />
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Path=Role}" Grid.Column="0"/>
+                                <TextBlock Text="{Binding Path=ShopObj.Name}" Grid.Column="2"/>
+                            </Grid>
+                            <TextBlock Text="{Binding Path=PhoneNumber}"/>
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+
+        <Border MinWidth="200" MaxWidth="800" MinHeight="200" MaxHeight="900" Margin="10.143,15,22,199.571" Background="#FFF1FAEE" Padding="8" CornerRadius="20" Grid.Column="1">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" Color="Gray" ShadowDepth="2"/>
+            </Border.Effect>
+            <StackPanel DataContext="{Binding SelectedUser}" Margin="1,0,0.286,-0.286" Grid.Column="1">
+
+                <TextBlock Text="Информация о выбранном работнике" Margin="10,0,0,0" Foreground="#FF457B9D" />
+
+                <Grid Margin="0,0,-0.286,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="65*"/>
+                        <ColumnDefinition Width="311*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Left" Margin="10,0,9.286,3.571" FontFamily="Yu Gothic UI Semibold" FontSize="36" Foreground="#FF457B9D" Grid.ColumnSpan="2"/>
+                    <TextBlock Text="{Binding SerialNumber, UpdateSourceTrigger=PropertyChanged}" Height="22" Margin="10,48,227.286,-17.429" TextAlignment="Left" VerticalAlignment="Top" Foreground="#FF457B9D" Grid.ColumnSpan="2"/>
+                </Grid>
+                <TextBlock Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Height="20" HorizontalAlignment="Right" Width="118" Foreground="#FF457B9D" />
+                <Grid HorizontalAlignment="Left" Width="100" Margin="24,0,0,0"/>
+                <TextBlock Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="10,0,172,0" FontFamily="SimSun-ExtB" FontSize="24" FontWeight="Bold" Foreground="#FF457B9D" />
+                <TextBlock Text="{Binding StockQuantity, UpdateSourceTrigger=PropertyChanged}" Height="22" Margin="10,0,0,0" HorizontalAlignment="Left" Width="212" Foreground="#FF457B9D" />
+                <TextBlock Text="{Binding IsProduced, UpdateSourceTrigger=PropertyChanged}" Height="22" Margin="0,0,-1,0" HorizontalAlignment="Right" Width="155" Foreground="#FF457B9D" />
+                <TextBlock Text="" Height="10" Margin="10,0,-1.286,0" />
+            </StackPanel>
+        </Border>
+        <Button Content="Изменить" Height="31" FontSize="15" IsEnabled="True" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="287.143,241,36,0" Grid.Column="1" Command="{Binding ChangeCommand}" VerticalAlignment="Top" Click="Button_Click_1"/>
+        <Button Content="Зарегистрировать сотрудника" Height="31" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="24.143,241,0,0" Command="{Binding AddCommand}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="246" RenderTransformOrigin="0.514,0.3" Click="Button_Click"/>
+        <Button Content="Уволить сотрудника" Height="31" FontSize="15" Background="#e63946" BorderBrush="#e63946" Margin="24.143,289,0,0" Command="{Binding DelCommand, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="191" RenderTransformOrigin="0.514,0.3" Click="Button_Click_2"/>
+    </Grid>
+</Window>
+
