@@ -1,0 +1,45 @@
+﻿<Window x:Class="Production.RegWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Production"
+        mc:Ignorable="d"
+        Title="Регистрация" Height="413.848" Width="553.805"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Grid Margin="-2,0,-3.429,1.143">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="#FFF1FAEE" Offset="1"/>
+                <GradientStop Color="#FFA8DADC" Offset="0.182"/>
+                <GradientStop Color="#FF457B9D"/>
+                <GradientStop Color="#FFA8DADC" Offset="0.49"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Border MinWidth="300" MaxWidth="500" Margin="15" Background="#a8dadc" VerticalAlignment="Center" Padding="10" CornerRadius="20">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" Color="Gray" ShadowDepth="2"/>
+            </Border.Effect>
+            <StackPanel Height="292" Margin="-0.286,0,0.286,0">
+                <TextBlock Text="Регистрация" FontSize="25" FontWeight="Bold" Margin="20 5 20 0" TextAlignment="Center"/>
+                <Grid VerticalAlignment="Bottom" Margin="10,13,0,0" Height="44">
+                    <TextBox x:Name="TextBoxName" HorizontalAlignment="Left" FontSize="15" materialDesign:HintAssist.Hint="Имя" Style="{StaticResource MaterialDesignFloatingHintTextBox}" CaretBrush="#FF457B9D" Width="223"/>
+                    <TextBox x:Name="TextBoxLastName" HorizontalAlignment="Right" Margin="0,0,10,0" FontSize="15" materialDesign:HintAssist.Hint="Фамилия" Style="{StaticResource MaterialDesignFloatingHintTextBox}" CaretBrush="#FF457B9D" Width="223"/>
+                </Grid>
+                <Grid VerticalAlignment="Bottom" Margin="10,13,0,0" Height="44">
+                    <TextBox x:Name="TextBoxPhone" HorizontalAlignment="Left" FontSize="15" materialDesign:HintAssist.Hint="Телефон" Style="{StaticResource MaterialDesignFloatingHintTextBox}" CaretBrush="#FF457B9D" Width="223"/>
+                    <TextBox x:Name="TextBoxEmail" HorizontalAlignment="Right" Margin="0,0,10,0" FontSize="15" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}" CaretBrush="#FF457B9D" Width="223"/>
+                </Grid>
+                <Grid VerticalAlignment="Bottom" Margin="10,13,0,0" Height="56">
+                    <TextBox x:Name="TextBoxLogin" HorizontalAlignment="Left" Margin="0,0,0,10" FontSize="15" materialDesign:HintAssist.Hint="Логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" CaretBrush="#FF457B9D" Width="223"/>
+                    <PasswordBox x:Name="TextBoxPassword" HorizontalAlignment="Right" Margin="0,0,10,10" FontSize="15" materialDesign:HintAssist.Hint="Пароль" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" CaretBrush="#FF457B9D" Background="Transparent" SelectionBrush="#FF457B9D" Width="223"/>
+                </Grid>
+
+                <Grid VerticalAlignment="Bottom" Margin="10,13,0,100" Height="39">
+                    <Button HorizontalAlignment="Left" Content="&lt; Назад" Width="88" FontSize="15" Style="{StaticResource MaterialDesignFlatDarkButton}" Foreground="#e63946" BorderBrush="#FF457B9D" Click="EnterClickBack" Margin="0,3,0,4"/>
+                    <Button HorizontalAlignment="Center" Content="Зарегистрироваться" Width="180" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Click="EnterClickAsync" Margin="0,3,0,4"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
