@@ -227,7 +227,13 @@
     <Compile Include="SellerMenuWindow.xaml.cs">
       <DependentUpon>SellerMenuWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Shop.cs" />
+    <Compile Include="User.cs" />
     <Compile Include="UserInfo.cs" />
+    <Compile Include="UserList.xaml.cs">
+      <DependentUpon>UserList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserListViewModel.cs" />
     <Page Include="AdminMenuWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -269,6 +275,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SellerMenuWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

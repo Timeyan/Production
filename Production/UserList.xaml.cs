@@ -15,21 +15,14 @@ using System.Windows.Shapes;
 namespace Production
 {
     /// <summary>
-    /// Interaction logic for AdminMenuWindow.xaml
+    /// Interaction logic for UserList.xaml
     /// </summary>
-    public partial class AdminMenuWindow : Window
+    public partial class UserList : Window
     {
-        public AdminMenuWindow()
+        public UserList()
         {
             InitializeComponent();
-            menegerName.Text = UserInfo.UserName + " " + UserInfo.UserLastName;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            ProductList productList = new ProductList();
-            productList.Show();
-            Close();
+            DataContext = new UserListViewModel();
         }
     }
 }
