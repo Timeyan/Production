@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Production"
         mc:Ignorable="d"
-        Title="AdminMenuWindow" Height="267.944" Width="297.879"
+        Title="AdminMenuWindow" Height="273.313" Width="422.898"
                 xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <Grid Margin="-2,0,-3.429,1.143">
         <Grid.Background>
@@ -16,7 +16,7 @@
                 <GradientStop Color="#FFA8DADC" Offset="0.49"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <Border MinWidth="200" MaxWidth="300" Margin="15" Background="#a8dadc" VerticalAlignment="Center" Padding="10" CornerRadius="20">
+        <Border MinWidth="200" MaxWidth="800" Margin="10,16,9.572,15.714" Background="#a8dadc" VerticalAlignment="Center" Padding="10" CornerRadius="20">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="20" Color="Gray" ShadowDepth="2"/>
             </Border.Effect>
@@ -24,12 +24,13 @@
                 <TextBlock x:Name="menegerName" Text="" FontSize="25" FontWeight="Bold" Margin="20 5 20 0" TextAlignment="Left"/>
                 <TextBlock Text="Администратор" FontSize="14" FontWeight="Light" Margin="20 5 20 0" TextAlignment="Left"/>
                 <Grid VerticalAlignment="Bottom" Margin="10,13,0,5" Height="39">
-                    <Button HorizontalAlignment="Left" Content="Товары" Width="83" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="10,3,0,4"/>
-                    <Button HorizontalAlignment="Right" Content="Заказы" Width="86" FontSize="15" Margin="0,3,37.857,4" Background="#FF457B9D" BorderBrush="#FF457B9D"/>
+                    <Button HorizontalAlignment="Left" Content="Товары" Width="83" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="47,3,0,4" Click="Button_Click"/>
+                    <Button HorizontalAlignment="Right" Content="Все пользователи" Width="163" FontSize="15" Margin="0,3,51.429,4" Background="#FF457B9D" BorderBrush="#FF457B9D"/>
                 </Grid>
                 <Grid VerticalAlignment="Bottom" Margin="10,5,0,10" Height="39">
-                    <Button Content="Заявки" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="10,3,144.857,4"/>
-                    <Button HorizontalAlignment="Right" Content="Создать заявку" Width="140" FontSize="15" Margin="0,0,-0.143,7" Foreground="#FF457B9D" Style="{StaticResource MaterialDesignFlatDarkButton}"/>
+                    <Button Content="Заявки" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="10,3,280.429,4"/>
+                    <Button Content="Магазины" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="110,3,158.429,4"/>
+                    <Button Content="Сотрудники" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="232,3,23.429,4"/>
                 </Grid>
             </StackPanel>
         </Border>

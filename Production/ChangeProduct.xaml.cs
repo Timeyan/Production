@@ -5,26 +5,24 @@ using System.Windows;
 
 namespace Production
 {
-    /// <summary>
-    /// Interaction logic for ChangeProduct.xaml
-    /// </summary>
+
     public partial class ChangeProduct : Window
     {
         private bool isSaving = false;
         public bool IsSaving { get { return isSaving; } set { isSaving = value; } }
         string connectionString;
-        Guid productId;
+        Product thisProd;
         public ChangeProduct(ref Product product)
         {
             InitializeComponent();
+            thisProd = product;
             connectionString = "Data Source=DESKTOP-N9D0K7G;Initial Catalog=Production;Integrated Security=true;TrustServerCertificate=True";
-            TextBoxName.Text = product.Name;
-            TextBoxSerialNumber.Text = product.SerialNumberData;
-            TextBoxPrice.Text = product.PriceData.ToString();
-            TextBoxQuantity.Text = product.StockQuantityData.ToString();
-            TextBoxIsProd.Text = product.IsProducedData ? "Производится" : "Снят с производства";
-            TextBoxType.Text = product.Type;
-            productId = product.Id;
+            TextBoxName.Text = thisProd.Name;
+            TextBoxSerialNumber.Text = thisProd.SerialNumberData;
+            TextBoxPrice.Text = thisProd.PriceData.ToString();
+            TextBoxQuantity.Text = thisProd.StockQuantityData.ToString();
+            TextBoxIsProd.Text = thisProd.IsProducedData ? "Производится" : "Снят с производства";
+            TextBoxType.Text = thisProd.Type;
             this.ShowDialog();
         }
 
@@ -38,17 +36,28 @@ namespace Production
             try
             {
                 String name = TextBoxName.Text;
+                thisProd.Name = name;
                 String sNum = TextBoxSerialNumber.Text;
                 foreach (var symbol in sNum)
                     if (!char.IsDigit(symbol))
                     {
                         throw new Exception("Серийный номер может содержать только цифры");
                     }
+                thisProd.SerialNumberData = sNum;
+                thisProd.SerialNumber = "№ " + thisProd.SerialNumberData;
                 decimal price = decimal.Parse(TextBoxPrice.Text);
+                thisProd.PriceData = price;
+                thisProd.Price = String.Format("{0:0.00}", thisProd.PriceData) + " руб";
                 String type = TextBoxType.Text;
+                thisProd.Type = type;
                 int quan = Int32.Parse(TextBoxQuantity.Text.Trim());
+                thisProd.StockQuantityData = quan;
+                thisProd.StockQuantity = "В наличии на складе: " + quan.ToString();
                 bool isProd = TextBoxIsProd.Text == "Производится";
-                Guid typeId = productId;
+                thisProd.IsProducedData = isProd;
+                thisProd.IsProduced = isProd ? (quan == 0 ?
+                            "Покупка под заказ" : "") : "Снят с производства";
+                Guid typeId = thisProd.Id;
                 if (name == "" || sNum == "" || type == "") 
                     throw new Exception("Должны быть заполнены все поля");
 
@@ -76,7 +85,7 @@ namespace Production
                     command.Parameters.Add(new SqlParameter { ParameterName = "@typeId", Value = typeId, SqlDbType = SqlDbType.UniqueIdentifier });
                     command.Parameters.Add(new SqlParameter { ParameterName = "@quan", Value = quan, SqlDbType = SqlDbType.Int });
                     command.Parameters.Add(new SqlParameter { ParameterName = "@isProd", Value = isProd, SqlDbType = SqlDbType.Bit });
-                    command.Parameters.Add(new SqlParameter { ParameterName = "@productId", Value = productId, SqlDbType = SqlDbType.UniqueIdentifier });
+                    command.Parameters.Add(new SqlParameter { ParameterName = "@productId", Value = thisProd.Id, SqlDbType = SqlDbType.UniqueIdentifier });
 
                     await command.ExecuteNonQueryAsync();
                 }

@@ -24,5 +24,10 @@ namespace Production
             InitializeComponent();
             menegerName.Text = UserInfo.UserName + " " + UserInfo.UserLastName;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

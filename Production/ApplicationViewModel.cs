@@ -47,10 +47,10 @@ namespace Production
                         if (selectedProduct != null)
                         {
                             ChangeProduct changeProduct = new ChangeProduct(ref selectedProduct);
-                            if (changeProduct.IsSaving)
-                            {
-                                OnPropertyChanged("SelectedProduct");
-                            }
+                            //if (changeProduct.IsSaving)
+                            //{
+                            //    OnPropertyChanged("SelectedProduct");
+                            //}
                         }
                     }));
             }
