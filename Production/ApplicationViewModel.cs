@@ -5,10 +5,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Configuration;
+using System.Data;
+using System.Windows.Forms;
 
 namespace Production
 {
-    class ApplicationViewModel
+    class ApplicationViewModel: INotifyPropertyChanged
     {
         private Product selectedProduct;
         string connectionString;
@@ -17,6 +19,7 @@ namespace Production
 
         private RelayCommand addCommand;
         private RelayCommand changeCommand;
+        private RelayCommand delCommand;
         public RelayCommand AddCommand
         {
             get
@@ -46,13 +49,52 @@ namespace Production
                             ChangeProduct changeProduct = new ChangeProduct(ref selectedProduct);
                             if (changeProduct.IsSaving)
                             {
-                                Products.Clear();
-                                CreateProductList();
+                                OnPropertyChanged("SelectedProduct");
                             }
                         }
                     }));
             }
         }
+
+        public RelayCommand DelCommand
+        {
+            get
+            {
+                return delCommand ??
+                    (delCommand = new RelayCommand(obj =>
+                    {
+                        if (selectedProduct != null)
+                        {
+                            if (selectedProduct.IsProducedData)
+                            {
+                                try {
+                                    selectedProduct.IsProducedData = false;
+                                    selectedProduct.IsProduced = "Снят с производства";
+                                    OnPropertyChanged("SelectedProduct");
+                                    string sqlProc = "if exists (select * from Product where ProductID = @productId) " +
+                                                            "update [Product] set isProduced = 0 where ProductID = @productId";
+                                    using (SqlConnection connection = new SqlConnection(connectionString))
+                                    {
+                                        connection.Open();
+
+                                        SqlCommand command = new SqlCommand(sqlProc, connection);
+                                        command.Parameters.Add(new SqlParameter { ParameterName = "@productId", 
+                                                                                  Value = SelectedProduct.Id, 
+                                                                                  SqlDbType = SqlDbType.UniqueIdentifier });
+
+                                        command.ExecuteNonQuery();
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message);
+                                }
+                            }
+                        }
+                    }));
+            }
+        }
+
         public Product SelectedProduct
         {
             get { return selectedProduct; }

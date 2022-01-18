@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Production
 {
-    public class Product: INotifyPropertyChanged
+    public class Product: INotifyPropertyChanged, ICloneable
     {
         private Guid id;
         private string name;
@@ -123,6 +123,12 @@ namespace Production
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
+
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             if (PropertyChanged != null)

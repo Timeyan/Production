@@ -39,11 +39,9 @@ namespace Production
             {
                 String name = TextBoxName.Text;
                 String sNum = TextBoxSerialNumber.Text;
-                bool flag = true;
                 foreach (var symbol in sNum)
                     if (!char.IsDigit(symbol))
                     {
-                        flag = false;
                         throw new Exception("Серийный номер может содержать только цифры");
                     }
                 decimal price = decimal.Parse(TextBoxPrice.Text);

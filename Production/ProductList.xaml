@@ -72,7 +72,8 @@
                 <TextBlock Text="" Height="10" Margin="10,0,-1.286,0" />
             </StackPanel>
         </Border>
-        <Button Content="Изменить" Height="31" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="289.143,241,22,0" Grid.Column="1" Command="{Binding ChangeCommand}" VerticalAlignment="Top" Click="Button_Click_1"/>
-        <Button Content="Добавить новый товар" Height="31" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="10.143,241,0,0" Command="{Binding AddCommand}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="210" RenderTransformOrigin="0.514,0.3"/>
+        <Button Content="Изменить" Height="31" FontSize="15" IsEnabled="True" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="275.143,241,36,0" Grid.Column="1" Command="{Binding ChangeCommand}" VerticalAlignment="Top" Click="Button_Click_1"/>
+        <Button Content="Добавить новый товар" Height="31" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="24.143,241,0,0" Command="{Binding AddCommand}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="210" RenderTransformOrigin="0.514,0.3"/>
+        <Button Content="Снять с производства" Height="31" FontSize="15" Background="#e63946" BorderBrush="#e63946" Margin="24.143,289,0,0" Command="{Binding DelCommand, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="210" RenderTransformOrigin="0.514,0.3"/>
     </Grid>
 </Window>
