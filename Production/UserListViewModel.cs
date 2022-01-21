@@ -63,17 +63,14 @@ namespace Production
                 return delCommand ??
                     (delCommand = new RelayCommand(obj =>
                     {
-                        /*if (selectedProduct != null)
+                        if (selectedUser != null)
                         {
-                            if (selectedProduct.IsProducedData)
+                            AcceptWindow deleteUser = new AcceptWindow(warning: $"Вы действительно хотите уволить {selectedUser.Name}");
+                            if (deleteUser.ShowDialog() == true)
                             {
                                 try
                                 {
-                                    selectedProduct.IsProducedData = false;
-                                    selectedProduct.IsProduced = "Снят с производства";
-                                    OnPropertyChanged("SelectedProduct");
-                                    string sqlProc = "if exists (select * from Product where ProductID = @productId) " +
-                                                            "update [Product] set isProduced = 0 where ProductID = @productId";
+                                    string sqlProc = "delete from Employee where IdUser = @id delete from [User] where UserID = @id";
                                     using (SqlConnection connection = new SqlConnection(connectionString))
                                     {
                                         connection.Open();
@@ -81,20 +78,22 @@ namespace Production
                                         SqlCommand command = new SqlCommand(sqlProc, connection);
                                         command.Parameters.Add(new SqlParameter
                                         {
-                                            ParameterName = "@productId",
-                                            Value = SelectedProduct.Id,
+                                            ParameterName = "@id",
+                                            Value = SelectedUser.Id,
                                             SqlDbType = SqlDbType.UniqueIdentifier
                                         });
 
                                         command.ExecuteNonQuery();
                                     }
+                                    Users.Remove(Users.FirstOrDefault(w => w.Id == selectedUser.Id));
+
                                 }
                                 catch (Exception ex)
                                 {
                                     MessageBox.Show(ex.Message);
                                 }
                             }
-                        }*/
+                        }
                     }));
             }
         }
@@ -143,7 +142,10 @@ namespace Production
                         Users.LastOrDefault().Id = (Guid)reader.GetValue(0);
                         Users.LastOrDefault().CustomerId = (Guid)reader.GetValue(1);
                         Users.LastOrDefault().RoleId = (Guid)reader.GetValue(2);
-                        Users.LastOrDefault().Role = (String)reader.GetValue(3);
+                        if ((String)reader.GetValue(3) == "Customer")
+                        {
+                            Users.LastOrDefault().Role = "Клиент";
+                        }
                         Users.LastOrDefault().Name = (String)reader.GetValue(4);
                         Users.LastOrDefault().LastName = (String)reader.GetValue(5);
                         Users.LastOrDefault().PhoneNumber = (String)reader.GetValue(6);
@@ -174,7 +176,16 @@ namespace Production
                             Users.LastOrDefault().Id = (Guid)reader.GetValue(0);
                             Users.LastOrDefault().EmployeeId = (Guid)reader.GetValue(1);
                             Users.LastOrDefault().RoleId = (Guid)reader.GetValue(2);
-                            Users.LastOrDefault().Role = (String)reader.GetValue(3);
+                            string role = (String)reader.GetValue(3);
+                            switch (role) 
+                            {
+                                case "Administrator":
+                                    Users.LastOrDefault().Role = "Администратор";
+                                    break;
+                                case "Meneger":
+                                    Users.LastOrDefault().Role = "Менеджер";
+                                    break;
+                            }
                             Users.LastOrDefault().Name = (String)reader.GetValue(4);
                             Users.LastOrDefault().LastName = (String)reader.GetValue(5);
                             Users.LastOrDefault().PhoneNumber = (String)reader.GetValue(6);
@@ -213,7 +224,6 @@ namespace Production
                         Users.LastOrDefault().Id = (Guid)reader.GetValue(0);
                         Users.LastOrDefault().EmployeeId = (Guid)reader.GetValue(1);
                         Users.LastOrDefault().RoleId = (Guid)reader.GetValue(2);
-                        Users.LastOrDefault().Role = (String)reader.GetValue(3);
                         Users.LastOrDefault().Name = (String)reader.GetValue(4);
                         Users.LastOrDefault().LastName = (String)reader.GetValue(5);
                         Users.LastOrDefault().PhoneNumber = (String)reader.GetValue(6);
@@ -233,6 +243,11 @@ namespace Production
                             Adress = (String)reader.GetValue(13),
                             PostCode = (String)reader.GetValue(13)
                         };
+                        if ((String)reader.GetValue(3) == "Seller")
+                        {
+                            Users.LastOrDefault().Role = "Продавец в магазине \"" + 
+                                Users.LastOrDefault().ShopObj.Name + "\"";
+                        }
                     }
 
                     reader.Close();

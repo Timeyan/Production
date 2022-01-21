@@ -200,6 +200,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AcceptWindow.xaml.cs">
+      <DependentUpon>AcceptWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AdminMenuWindow.xaml.cs">
       <DependentUpon>AdminMenuWindow.xaml</DependentUpon>
     </Compile>
@@ -237,6 +240,10 @@
       <DependentUpon>UserList.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserListViewModel.cs" />
+    <Page Include="AcceptWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AdminMenuWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

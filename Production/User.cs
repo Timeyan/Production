@@ -13,25 +13,25 @@ namespace Production
         Dictionary<Guid, String> roles;
 
 
-        private Guid id;
-        private Guid customerId;
-        private Guid employeeId;
-        private Guid shopId;
-        private Guid roleId;
+        private Guid id; //не доступно в интерфейсе
+        private Guid customerId; //не доступно в интерфейсе
+        private Guid employeeId; //не доступно в интерфейсе
+        private Guid shopId; //не доступно в интерфейсе
+        private Guid roleId; //не доступно в интерфейсе
         private Shop shopObj;
         private string name;
         private string lastName;
         private string phoneNumber;
         private string email;
         private string passportNumber;
-        private string passportNumberData;
-        private DateTime birthDate;
+        private string passportNumberData; //не доступно в интерфейсе
+        private DateTime birthDate; //не доступно в интерфейсе
         private string birthDateStr;
         private string adress;
-        private string adressData;
+        private string adressData; //не доступно в интерфейсе
         private string postCode;
         private string role;
-        private string postCodeData;
+        private string postCodeData; //не доступно в интерфейсе
 
         public User()
         {

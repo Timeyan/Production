@@ -60,8 +60,15 @@
                                 <TextBlock Text="{Binding Path=Email}" Grid.Column="3" />
                             </Grid>
                             <TextBlock Text="{Binding Path=Role}"/>
-                            <TextBlock Text="{Binding Path=PassportNumber}"/>
-                            <TextBlock Text="{Binding Path=BirthDateStr}"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="15"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Path=PassportNumber}" Grid.Column="0"/>
+                                <TextBlock Text="{Binding Path=BirthDateStr}" Grid.Column="2"/>
+                            </Grid>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -71,10 +78,9 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding Path=Adress}" Grid.Column="0"/>
-                                <TextBlock Text="   " Grid.Column="1"/>
+                                <TextBlock Text="    " Grid.Column="1"/>
                                 <TextBlock Text="{Binding Path=PostCode}" Grid.Column="2"/>
                             </Grid>
-                            <TextBlock Text="{Binding Path=ShopObj.Name}" />
 
                         </StackPanel>
                     </DataTemplate>

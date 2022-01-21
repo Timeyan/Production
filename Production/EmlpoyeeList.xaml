@@ -47,15 +47,7 @@
                                 <TextBlock FontSize="18" Grid.Column="0" Text="{Binding Path=Name}" />
                                 <TextBlock FontSize="18" Grid.Column="2" Text="{Binding Path=LastName}" />
                             </Grid>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding Path=Role}" Grid.Column="0"/>
-                                <TextBlock Text="{Binding Path=ShopObj.Name}" Grid.Column="2"/>
-                            </Grid>
+                            <TextBlock Text="{Binding Path=Role}" Width="Auto"/>
                             <TextBlock Text="{Binding Path=PhoneNumber}"/>
 
                         </StackPanel>
@@ -74,23 +66,49 @@
 
                 <Grid Margin="0,0,-0.286,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="65*"/>
-                        <ColumnDefinition Width="311*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Left" Margin="10,0,9.286,3.571" FontFamily="Yu Gothic UI Semibold" FontSize="36" Foreground="#FF457B9D" Grid.ColumnSpan="2"/>
-                    <TextBlock Text="{Binding SerialNumber, UpdateSourceTrigger=PropertyChanged}" Height="22" Margin="10,48,227.286,-17.429" TextAlignment="Left" VerticalAlignment="Top" Foreground="#FF457B9D" Grid.ColumnSpan="2"/>
+                    <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Left" Margin="10,0,9.286,3.571" FontFamily="Yu Gothic UI Semibold" FontSize="36" Foreground="#FF457B9D" Grid.Column="0"/>
+                    <TextBlock Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Left" FontFamily="Yu Gothic UI Semibold" FontSize="36" Foreground="#FF457B9D" Grid.Column="1"/>
                 </Grid>
-                <TextBlock Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Height="20" HorizontalAlignment="Right" Width="118" Foreground="#FF457B9D" />
-                <Grid HorizontalAlignment="Left" Width="100" Margin="24,0,0,0"/>
-                <TextBlock Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" Height="28" Margin="10,0,172,0" FontFamily="SimSun-ExtB" FontSize="24" FontWeight="Bold" Foreground="#FF457B9D" />
-                <TextBlock Text="{Binding StockQuantity, UpdateSourceTrigger=PropertyChanged}" Height="22" Margin="10,0,0,0" HorizontalAlignment="Left" Width="212" Foreground="#FF457B9D" />
-                <TextBlock Text="{Binding IsProduced, UpdateSourceTrigger=PropertyChanged}" Height="22" Margin="0,0,-1,0" HorizontalAlignment="Right" Width="155" Foreground="#FF457B9D" />
-                <TextBlock Text="" Height="10" Margin="10,0,-1.286,0" />
+                <TextBlock Text="{Binding Role, UpdateSourceTrigger=PropertyChanged}" Height="28" TextAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" TextWrapping="Wrap" Foreground="#FF457B9D" Margin="10,0" FontSize="16"/>
+                <Grid Margin="14,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Height="22" HorizontalAlignment="Left" Width="Auto" Foreground="#FF457B9D" FontSize="14" Grid.Column="0"/>
+                    <TextBlock Height="22" Grid.Column="1"/>
+                    <TextBlock Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" Height="22" HorizontalAlignment="Right" FontSize="14" Grid.Column="2" Foreground="#FF457B9D" />
+                </Grid>
+                <Grid Margin="14,0,10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="185"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding BirthDateStr, UpdateSourceTrigger=PropertyChanged}" Height="22" HorizontalAlignment="Left" Width="Auto" Foreground="#FF457B9D" FontSize="14" Grid.Column="0"/>
+                    <TextBlock Height="22" Grid.Column="1"/>
+                    <TextBlock Text="{Binding PassportNumber, UpdateSourceTrigger=PropertyChanged}" Height="22" HorizontalAlignment="Right" FontSize="14" Grid.Column="2" Foreground="#FF457B9D" />
+                </Grid>
+
+                <Grid Margin="14,0,10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Adress, UpdateSourceTrigger=PropertyChanged}" Height="49" HorizontalAlignment="Left" Width="221" Foreground="#FF457B9D" TextWrapping="Wrap" FontSize="14" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,0.143"/>
+                    <TextBlock Height="49" Grid.Column="1"/>
+                    <TextBlock Text="{Binding PostCode, UpdateSourceTrigger=PropertyChanged}" Height="49" HorizontalAlignment="Right" FontSize="14" Grid.Column="2" Foreground="#FF457B9D" />
+                </Grid>
             </StackPanel>
         </Border>
-        <Button Content="Изменить" Height="31" FontSize="15" IsEnabled="True" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="287.143,241,36,0" Grid.Column="1" Command="{Binding ChangeCommand}" VerticalAlignment="Top" Click="Button_Click_1"/>
-        <Button Content="Зарегистрировать сотрудника" Height="31" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="24.143,241,0,0" Command="{Binding AddCommand}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="246" RenderTransformOrigin="0.514,0.3" Click="Button_Click"/>
-        <Button Content="Уволить сотрудника" Height="31" FontSize="15" Background="#e63946" BorderBrush="#e63946" Margin="24.143,289,0,0" Command="{Binding DelCommand, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="191" RenderTransformOrigin="0.514,0.3" Click="Button_Click_2"/>
+        <Button Content="Изменить" Height="31" FontSize="15" IsEnabled="True" Background="#FF457B9D" Width="102" BorderBrush="#FF457B9D" Margin="275,241,36,0" Grid.Column="1" Command="{Binding ChangeCommand}" VerticalAlignment="Top" Click="Button_Click_1"/>
+        <Button Content="Зарегистрировать сотрудника" Height="31" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="24,241,0,0" Command="{Binding AddCommand}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="244" RenderTransformOrigin="0.514,0.3" Click="Button_Click"/>
+        <Button Content="Уволить сотрудника" Height="31" FontSize="15" Background="#e63946" BorderBrush="#e63946" Margin="24,289,0,0" Command="{Binding DelCommand, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="191" RenderTransformOrigin="0.514,0.3" Click="Button_Click_2"/>
     </Grid>
 </Window>
 
