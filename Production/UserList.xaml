@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Production" d:DataContext="{d:DesignInstance Type=local:User}"
         mc:Ignorable="d"
         Title="Пользователи" Height="450" Width="389.714" 
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" ResizeMode="NoResize">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="14" />

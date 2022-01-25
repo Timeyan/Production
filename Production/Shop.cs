@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Production
 {
-    class Shop: INotifyPropertyChanged
+    public class Shop: INotifyPropertyChanged
     {
         private Guid id;
         private String name;

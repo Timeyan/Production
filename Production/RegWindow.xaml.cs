@@ -38,7 +38,7 @@ namespace Production
                 String phone = TextBoxPhone.Text;
                 String email = TextBoxEmail.Text;
                 String login = TextBoxLogin.Text;
-                String password = BCrypt.Net.BCrypt.HashPassword(TextBoxPassword.Password/*, BCrypt.Net.BCrypt.GenerateSalt()*/);
+                String password = BCrypt.Net.BCrypt.HashPassword(TextBoxPassword.Password);
                 if (password == "" || name == "" || lastName == "" || 
                         phone == "" || email == "" || login == "") throw new Exception("Должны быть заполнены все поля");
 
@@ -56,7 +56,7 @@ namespace Production
                     command.Parameters.Add(new SqlParameter { ParameterName = "@login", Value = login, SqlDbType = SqlDbType.VarChar });
                     command.Parameters.Add(new SqlParameter { ParameterName = "@password", Value = password, SqlDbType = SqlDbType.VarChar });
 
-                    await command.ExecuteNonQueryAsync();
+                    _ = await command.ExecuteNonQueryAsync();
                 }
                 //SqlCommand command = new SqlCommand(sql, connection);
                 //SqlDataReader result = command.ExecuteReader();

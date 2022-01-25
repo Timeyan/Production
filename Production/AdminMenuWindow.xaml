@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Production"
         mc:Ignorable="d"
         Title="AdminMenuWindow" Height="273.313" Width="422.898"
-                xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+                xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" ResizeMode="NoResize">
     <Grid Margin="-2,0,-3.429,1.143">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">

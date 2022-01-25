@@ -2,15 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
 using System.Runtime.CompilerServices;
 
 namespace Production
 {
-    class User : INotifyPropertyChanged
+    public class User : INotifyPropertyChanged
     {
-        String connectionString;
-        Dictionary<Guid, String> roles;
+        readonly string connectionString;
+        Dictionary<Guid, string> roles;
 
 
         private Guid id; //не доступно в интерфейсе
@@ -24,14 +23,13 @@ namespace Production
         private string phoneNumber;
         private string email;
         private string passportNumber;
-        private string passportNumberData; //не доступно в интерфейсе
         private DateTime birthDate; //не доступно в интерфейсе
         private string birthDateStr;
         private string adress;
-        private string adressData; //не доступно в интерфейсе
         private string postCode;
         private string role;
-        private string postCodeData; //не доступно в интерфейсе
+        private string roleData;
+        private string login;
 
         public User()
         {
@@ -61,7 +59,7 @@ namespace Production
 
         public string Name
         {
-            get { return name; }
+            get => name;
             set
             {
                 name = value;
@@ -70,7 +68,7 @@ namespace Production
         }
         public Guid Id
         {
-            get { return id; }
+            get => id;
             set
             {
                 id = value;
@@ -79,7 +77,7 @@ namespace Production
         }
         public Guid CustomerId
         {
-            get { return customerId; }
+            get => customerId;
             set
             {
                 customerId = value;
@@ -88,7 +86,7 @@ namespace Production
         }
         public Guid EmployeeId
         {
-            get { return employeeId; }
+            get => employeeId;
             set
             {
                 employeeId = value;
@@ -98,7 +96,7 @@ namespace Production
 
         public Guid ShopId
         {
-            get { return shopId; }
+            get => shopId;
             set
             {
                 shopId = value;
@@ -107,7 +105,7 @@ namespace Production
         }
         public Guid RoleId
         {
-            get { return roleId; }
+            get => roleId;
             set
             {
                 roleId = value;
@@ -116,7 +114,7 @@ namespace Production
         }
         public string LastName
         {
-            get { return lastName; }
+            get => lastName;
             set
             {
                 lastName = value;
@@ -126,7 +124,7 @@ namespace Production
 
         public string PhoneNumber
         {
-            get { return phoneNumber; }
+            get => phoneNumber;
             set
             {
                 phoneNumber = value;
@@ -136,7 +134,7 @@ namespace Production
 
         public string Email
         {
-            get { return email; }
+            get => email;
             set
             {
                 email = value;
@@ -146,25 +144,18 @@ namespace Production
 
         public string PassportNumber
         {
-            get { return passportNumber; }
+            get => passportNumber;
             set
             {
                 passportNumber = value;
                 OnPropertyChanged("PassportNumber");
             }
         }
-        public string PassportNumberData
-        {
-            get { return passportNumberData; }
-            set
-            {
-                passportNumberData = value;
-            }
-        }
+        public string PassportNumberData { get; set; }
 
         public DateTime BirthDate
         {
-            get { return birthDate; }
+            get => birthDate;
             set
             {
                 birthDate = value;
@@ -173,7 +164,7 @@ namespace Production
         }
         public string BirthDateStr
         {
-            get { return birthDateStr; }
+            get => birthDateStr;
             set
             {
                 birthDateStr = value;
@@ -183,43 +174,29 @@ namespace Production
 
         public string Adress
         {
-            get { return adress; }
+            get => adress;
             set
             {
                 adress = value;
                 OnPropertyChanged("Adress");
             }
         }
-        public string AdressData
-        {
-            get { return adressData; }
-            set
-            {
-                adressData = value;
-            }
-        }
+        public string AdressData { get; set; }
 
         public string PostCode
         {
-            get { return postCode; }
+            get => postCode;
             set
             {
                 postCode = value;
                 OnPropertyChanged("PostCode");
             }
         }
-        public string PostCodeData
-        {
-            get { return postCodeData; }
-            set
-            {
-                postCodeData = value;
-            }
-        }
+        public string PostCodeData { get; set; }
 
         public string Role
         {
-            get { return role; }
+            get => role;
             set
             {
                 role = value;
@@ -227,9 +204,29 @@ namespace Production
             }
         }
 
+        public string RoleData
+        {
+            get => roleData;
+            set
+            {
+                roleData = value;
+                OnPropertyChanged("RoleData");
+            }
+        }
+
+        public string Login
+        {
+            get => login;
+            set
+            {
+                login = value;
+                OnPropertyChanged("Login");
+            }
+        }
+
         public Shop ShopObj
         {
-            get { return shopObj; }
+            get => shopObj;
             set
             {
                 shopObj = value;
@@ -237,16 +234,11 @@ namespace Production
             }
         }
 
-
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
-
     }
-
 }

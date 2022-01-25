@@ -37,25 +37,29 @@ namespace Production
         {
             userLogin = TextBoxLogin.Text;
             string otherPass = TextBoxPassword.Password;
-            string password = BCrypt.Net.BCrypt.HashPassword(TextBoxPassword.Password/*, BCrypt.Net.BCrypt.GenerateSalt()*/);
             try
             {
-                string sql = "SELECT UserID, Name as Role FROM [User] join Role on RoleID = IdRole where login = @login and password = @pass";
+                string sql = "SELECT UserID, Name as Role, Password FROM [User] join Role on RoleID = IdRole where login = @login";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
                     SqlCommand command = new SqlCommand(sql, connection);
                     SqlParameter loginParam = new SqlParameter { ParameterName = "@login", SqlDbType = SqlDbType.VarChar, Value = userLogin };
-                    command.Parameters.Add(loginParam);
-                    SqlParameter passParam = new SqlParameter { ParameterName = "@pass", SqlDbType = SqlDbType.VarChar, Value = otherPass };
-                    command.Parameters.Add(passParam);
+                    _ = command.Parameters.Add(loginParam);
                     SqlDataReader reader = command.ExecuteReader();
                     bool b = reader.HasRows;
-                    reader.Read();
+                    _ = reader.Read();
                     userId = (Guid)reader.GetValue(0);
                     userRole = reader.GetValue(1) + "";
+                    string passwordHash = reader.GetValue(2) + "";
+                    if (!BCrypt.Net.BCrypt.Verify(otherPass, passwordHash))
+                    {
+                        throw new Exception("Неверный пароль");
+                    }
                     UserInfo.UserId = userId;
                     UserInfo.UserRole = userRole;
+                    UserInfo.UserPassword = otherPass;
+                    UserInfo.UserLogin = userLogin;
 
                     reader.Close();
                 }
@@ -69,9 +73,9 @@ namespace Production
                             connection.Open();
                             SqlCommand command = new SqlCommand(sql, connection);
                             SqlParameter idParam = new SqlParameter { ParameterName = "@userid", Value = userId };
-                            command.Parameters.Add(idParam);
+                            _ = command.Parameters.Add(idParam);
                             SqlDataReader reader = command.ExecuteReader();
-                            reader.Read();
+                            _ = reader.Read();
                             UserInfo.UserName = reader["Name"] + "";
                             UserInfo.UserLastName = reader["LastName"] + "";
                             UserInfo.UserEmail = reader["Email"] + "";
@@ -163,13 +167,13 @@ namespace Production
                         Hide();
                         break;
                     default:
-                        MessageBox.Show("Ошибка");
+                        throw new Exception("Ошибка");
                         break;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Ошибка");
+                MessageBox.Show(ex.Message);
             }
 
             //как сохранить соль?

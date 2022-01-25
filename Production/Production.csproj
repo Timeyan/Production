@@ -207,8 +207,14 @@
       <DependentUpon>AdminMenuWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ApplicationViewModel.cs" />
+    <Compile Include="ChangeEmployee.xaml.cs">
+      <DependentUpon>ChangeEmployee.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ChangeProduct.xaml.cs">
       <DependentUpon>ChangeProduct.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CreateEmployee.xaml.cs">
+      <DependentUpon>CreateEmployee.xaml</DependentUpon>
     </Compile>
     <Compile Include="CreateProduct.xaml.cs">
       <DependentUpon>CreateProduct.xaml</DependentUpon>
@@ -248,7 +254,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ChangeEmployee.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ChangeProduct.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreateEmployee.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Production"
         mc:Ignorable="d"
         Title="Сотрудники" Height="458.762" Width="800"       
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" ResizeMode="NoResize">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="14" />
@@ -96,11 +96,11 @@
 
                 <Grid Margin="14,0,10,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="226"/>
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding Adress, UpdateSourceTrigger=PropertyChanged}" Height="49" HorizontalAlignment="Left" Width="221" Foreground="#FF457B9D" TextWrapping="Wrap" FontSize="14" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,0.143"/>
+                    <TextBlock Text="{Binding Adress, UpdateSourceTrigger=PropertyChanged}" Height="49" HorizontalAlignment="Left" Width="226" Foreground="#FF457B9D" TextWrapping="Wrap" FontSize="14" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,0.143"/>
                     <TextBlock Height="49" Grid.Column="1"/>
                     <TextBlock Text="{Binding PostCode, UpdateSourceTrigger=PropertyChanged}" Height="49" HorizontalAlignment="Right" FontSize="14" Grid.Column="2" Foreground="#FF457B9D" />
                 </Grid>

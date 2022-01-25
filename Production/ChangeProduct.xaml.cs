@@ -23,12 +23,12 @@ namespace Production
             TextBoxQuantity.Text = thisProd.StockQuantityData.ToString();
             TextBoxIsProd.Text = thisProd.IsProducedData ? "Производится" : "Снят с производства";
             TextBoxType.Text = thisProd.Type;
-            this.ShowDialog();
+            _ = ShowDialog();
         }
 
         private void EnterClickBack(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private async void EnterClickAsync(object sender, RoutedEventArgs e)

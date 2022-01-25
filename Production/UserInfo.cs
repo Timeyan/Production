@@ -20,5 +20,6 @@ namespace Production
         public static string UserShop { set; get; }
         public static Guid UserId { set; get; }
         public static string UserLogin { set; get; }
+        public static string UserPassword { set; get; }
     }
 }
