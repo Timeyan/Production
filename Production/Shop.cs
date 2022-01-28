@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace Production
 {
-    public class Shop: INotifyPropertyChanged
+    public class Shop : INotifyPropertyChanged
     {
         private Guid id;
-        private String name;
-        private String adress;
-        private String postCode;
+        private string name;
+        private string adress;
+        private string postCode;
 
         public Guid Id
         {
-            get { return id; }
+            get => id;
             set
             {
                 id = value;
@@ -26,7 +26,7 @@ namespace Production
         }
         public string Name
         {
-            get { return name; }
+            get => name;
             set
             {
                 name = value;
@@ -36,7 +36,7 @@ namespace Production
 
         public string Adress
         {
-            get { return adress; }
+            get => adress;
             set
             {
                 adress = value;
@@ -46,7 +46,7 @@ namespace Production
 
         public string PostCode
         {
-            get { return postCode; }
+            get => postCode;
             set
             {
                 postCode = value;
@@ -58,8 +58,7 @@ namespace Production
 
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
     }

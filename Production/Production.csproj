@@ -219,6 +219,9 @@
     <Compile Include="CreateProduct.xaml.cs">
       <DependentUpon>CreateProduct.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CreateShop.xaml.cs">
+      <DependentUpon>CreateShop.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomerMenuWindow.xaml.cs">
       <DependentUpon>CustomerMenuWindow.xaml</DependentUpon>
     </Compile>
@@ -240,6 +243,10 @@
       <DependentUpon>SellerMenuWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shop.cs" />
+    <Compile Include="ShopList.xaml.cs">
+      <DependentUpon>ShopList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShopListViewModel.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserInfo.cs" />
     <Compile Include="UserList.xaml.cs">
@@ -267,6 +274,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CreateProduct.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreateShop.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -303,6 +314,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SellerMenuWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShopList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

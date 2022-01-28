@@ -61,10 +61,6 @@ namespace Production
                         if (selectedUser != null)
                         {
                             ChangeEmployee changeEmployee = new ChangeEmployee(ref selectedUser);
-                            //if (changeProduct.IsSaving)
-                            //{
-                            //    OnPropertyChanged("SelectedUser");
-                            //}
                         }
                     }));
             }
