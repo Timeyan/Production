@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -14,6 +15,13 @@ namespace Production
         private string name;
         private string adress;
         private string postCode;
+        private string first = "";
+        private string second = "";
+        private string third = "";
+        private string ellipsis = "";
+        //public ObservableCollection<Guid> EmployeeGuidList { get; set; }
+        public ObservableCollection<string> EmployeeList { get; set; }
+        
 
         public Guid Id
         {
@@ -53,6 +61,47 @@ namespace Production
                 OnPropertyChanged("PostCode");
             }
         }
+
+        public string First
+        {
+            get => first;
+            set
+            {
+                first = value;
+                OnPropertyChanged("First");
+            }
+        }
+
+        public string Second
+        {
+            get => second;
+            set
+            {
+                second = value;
+                OnPropertyChanged("Second");
+            }
+        }
+
+        public string Third
+        {
+            get => third;
+            set
+            {
+                third = value;
+                OnPropertyChanged("Third");
+            }
+        }
+
+        public string Ellipsis
+        {
+            get => ellipsis;
+            set
+            {
+                ellipsis = value;
+                OnPropertyChanged("Ellipsis");
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

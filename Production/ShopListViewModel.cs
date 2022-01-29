@@ -20,7 +20,7 @@ namespace Production
         public ObservableCollection<Shop> Shops { get; set; }
 
         private RelayCommand addCommand;
-        //private RelayCommand changeCommand;
+        private RelayCommand changeCommand;
         private RelayCommand delCommand;
         public RelayCommand AddCommand
         {
@@ -33,41 +33,31 @@ namespace Production
                         if (createShop.IsSaving)
                         {
                             CreateShopList();
-                            /*if (createEmployee.Role == "Seller")
-                            {
-                                CreateShopList("Select UserId, EmployeeId, RoleId, Role.Name, Employee.Name, LastName, " +
-                                                 "PhoneNumber, Email, PassportNumber, BirthDate, Employee.Adress, Employee.PostCode, " +
-                                                 "ShopId, Shop.Name, Shop.Adress, Shop.PostCode, Login from [User] join Role " +
-                                                 "on IdRole = RoleID join Employee on UserId = IdUser join Shop " +
-                                                 "on ShopID = IdShop where Login = @login", createEmployee.Login);
-                            }
-                            else
-                            {
-                                CreateEmployeeList("Select UserId, EmployeeId, RoleId, Role.Name, Employee.Name, " +
-                                                   "LastName, PhoneNumber, Email, PassportNumber, BirthDate, Adress, PostCode " +
-                                                   "Login from [User] join Role on IdRole = RoleID join Employee " +
-                                                   "on UserId = IdUser where Login = @login", createEmployee.Login);
-                            }*/
                             SelectedShop = Shops.LastOrDefault();
                         }
                     }));
             }
         }
 
-        /*public RelayCommand ChangeCommand
+        public RelayCommand ChangeCommand
         {
             get
             {
                 return changeCommand ??
                     (changeCommand = new RelayCommand(obj =>
                     {
-                        if (selectedShop != null)
+                        if (selectedShop.EmployeeList != null && selectedShop.EmployeeList.Count != 0)
                         {
-                            // ChangeEmployee changeEmployee = new ChangeEmployee(ref selectedShop);
+                            UserList userList = new UserList(sql: "Select UserId, EmployeeId, RoleId, Role.Name, " +
+                                            "Employee.Name, LastName, PhoneNumber, Email, PassportNumber, BirthDate, " +
+                                            "Employee.Adress, Employee.PostCode, ShopId, Shop.Name, Shop.Adress, " +
+                                            "Shop.PostCode, Login from [User] join Role on IdRole = RoleID join Employee " +
+                                            "on UserId = IdUser join Shop on ShopID = IdShop where ShopId = @shop", 
+                                            id: selectedShop.Id);
                         }
                     }));
             }
-        }*/
+        }
 
         public RelayCommand DelCommand
         {
@@ -117,6 +107,45 @@ namespace Production
             set
             {
                 selectedShop = value;
+                selectedShop.EmployeeList = new ObservableCollection<string>();
+                string sql = "select EmployeeId, Name, LastName from Employee where IdShop = @shop";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sql, connection);
+                    _ = command.Parameters.Add(new SqlParameter
+                    {
+                        ParameterName = "@shop",
+                        Value = selectedShop.Id,
+                        SqlDbType = SqlDbType.UniqueIdentifier
+                    });
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            selectedShop.EmployeeList.Add((string)reader.GetValue(2) + " " + (string)reader.GetValue(1));
+                        }
+                        reader.Close();
+                    }
+                }
+                switch (selectedShop.EmployeeList.Count)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        selectedShop.First = selectedShop.EmployeeList[0];
+                        goto case 0;
+                    case 2:
+                        selectedShop.Second = selectedShop.EmployeeList[1];
+                        goto case 1;
+                    case 3:
+                        selectedShop.Third = selectedShop.EmployeeList[2];
+                        goto case 2;
+                    default:
+                        selectedShop.Ellipsis = "...";
+                        goto case 3;
+                }
                 OnPropertyChanged("SelectedShop");
             }
         }

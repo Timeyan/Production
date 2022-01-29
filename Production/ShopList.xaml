@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Точки выдачи" Height="458.762" Width="800"       
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-        d:DataContext="{d:DesignInstance Type=local:UserListViewModel}" ResizeMode="NoResize">
+        d:DataContext="{d:DesignInstance Type=local:ShopListViewModel}" ResizeMode="NoResize">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="14" />
@@ -53,7 +53,7 @@
             </ListBox>
         </Border>
 
-        <Border MinWidth="200" MaxWidth="800" MinHeight="200" MaxHeight="900" Margin="10.143,15,22,199.571" Background="#FFF1FAEE" Padding="8" CornerRadius="20" Grid.Column="1">
+        <Border MinWidth="200" MaxWidth="800" MinHeight="200" MaxHeight="900" Margin="10.143,15,22,171.143" Background="#FFF1FAEE" Padding="8" CornerRadius="20" Grid.Column="1">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="20" Color="Gray" ShadowDepth="2"/>
             </Border.Effect>
@@ -64,48 +64,63 @@
                 <Grid Margin="0,0,-0.286,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Left" Margin="10,0,9.286,3.571" FontFamily="Yu Gothic UI Semibold" FontSize="36" Foreground="#FF457B9D" Grid.Column="0"/>
-                    <TextBlock Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Left" FontFamily="Yu Gothic UI Semibold" FontSize="36" Foreground="#FF457B9D" Grid.Column="1"/>
-                </Grid>
-                <TextBlock Text="{Binding Role, UpdateSourceTrigger=PropertyChanged}" Height="28" TextAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" TextWrapping="Wrap" Foreground="#FF457B9D" Margin="10,0" FontSize="16"/>
-                <Grid Margin="14,0,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="50"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Height="22" HorizontalAlignment="Left" Width="Auto" Foreground="#FF457B9D" FontSize="14" Grid.Column="0"/>
-                    <TextBlock Height="22" Grid.Column="1"/>
-                    <TextBlock Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" Height="22" HorizontalAlignment="Right" FontSize="14" Grid.Column="2" Foreground="#FF457B9D" />
-                </Grid>
-                <Grid Margin="14,0,10,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="185"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding BirthDateStr, UpdateSourceTrigger=PropertyChanged}" Height="22" HorizontalAlignment="Left" Width="Auto" Foreground="#FF457B9D" FontSize="14" Grid.Column="0"/>
-                    <TextBlock Height="22" Grid.Column="1"/>
-                    <TextBlock Text="{Binding PassportNumber, UpdateSourceTrigger=PropertyChanged}" Height="22" HorizontalAlignment="Right" FontSize="14" Grid.Column="2" Foreground="#FF457B9D" />
+                    <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" 
+                               TextAlignment="Left" Margin="10,0,9.286,3.571" FontFamily="Yu Gothic UI Semibold" 
+                               FontSize="36" Foreground="#FF457B9D" Grid.Column="0"/>
                 </Grid>
 
-                <Grid Margin="14,0,10,0">
+                <Grid Margin="14,0,10,0" Height="42">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="226"/>
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding Adress, UpdateSourceTrigger=PropertyChanged}" Height="49" HorizontalAlignment="Left" Width="226" Foreground="#FF457B9D" TextWrapping="Wrap" FontSize="14" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,0.143"/>
+                    <TextBlock Text="{Binding Adress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="226" Foreground="#FF457B9D" TextWrapping="Wrap" FontSize="14" Grid.Column="0"/>
                     <TextBlock Height="49" Grid.Column="1"/>
-                    <TextBlock Text="{Binding PostCode, UpdateSourceTrigger=PropertyChanged}" Height="49" HorizontalAlignment="Right" FontSize="14" Grid.Column="2" Foreground="#FF457B9D" />
+                    <TextBlock Text="{Binding PostCode, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" FontSize="14" Grid.Column="2" Foreground="#FF457B9D" Margin="0,0,0.143,0" />
+                </Grid>
+                <Grid Margin="14,0,0,0" Height="27">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Продавцы:" Height="22" HorizontalAlignment="Left" Width="Auto" Foreground="#FF457B9D" FontSize="14" Grid.Column="0"/>
+                </Grid>
+                <Grid Margin="14,0,144,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding First, UpdateSourceTrigger=PropertyChanged}" Height="22" HorizontalAlignment="Right"  FontSize="14" Grid.Column="2" Foreground="#FF457B9D" />
+                </Grid>
+                <Grid Margin="14,0,144,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Second, UpdateSourceTrigger=PropertyChanged}" Height="22" HorizontalAlignment="Left" Width="Auto" Foreground="#FF457B9D" FontSize="14" Grid.Column="0"/>
+                </Grid>
+                <Grid Margin="14,0,144,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Third, UpdateSourceTrigger=PropertyChanged}" Height="22" HorizontalAlignment="Left" Width="Auto" Foreground="#FF457B9D" FontSize="14" Grid.Column="0"/>
+                </Grid>
+                <Grid Margin="14,0,144,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Ellipsis, UpdateSourceTrigger=PropertyChanged}" Height="22" HorizontalAlignment="Left" Width="Auto" Foreground="#FF457B9D" FontSize="14" Grid.Column="0"/>
                 </Grid>
             </StackPanel>
+
         </Border>
-        <Button Content="Изменить" Height="31" FontSize="15" IsEnabled="True" Background="#FF457B9D" Width="102" BorderBrush="#FF457B9D" Margin="275,241,36,0" Grid.Column="1" Command="{Binding ChangeCommand}" VerticalAlignment="Top" Click="Button_Click_1"/>
-        <Button Content="Новый пункт выдачи" Height="31" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="24.143,241,0,0" Command="{Binding AddCommand}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="191" RenderTransformOrigin="0.514,0.3" Click="Button_Click"/>
-        <Button Content="Удалить пункт выдачи" Height="31" FontSize="15" Background="#e63946" BorderBrush="#e63946" Margin="24,289,0,0" Command="{Binding DelCommand, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="191" RenderTransformOrigin="0.514,0.3" Click="Button_Click_2"/>
+        <Button Content="Подробнее" Height="25" FontSize="12" IsEnabled="True" 
+                            Background="{x:Null}" Width="102" BorderBrush="{x:Null}"
+                            Margin="10.143,263,313,0" Command="{Binding ChangeCommand}" 
+                            VerticalAlignment="Top" Click="Button_Click_1" Grid.Column="1" Foreground="#FF457B9D"/>
+        <Button Content="Новый пункт выдачи" Height="31" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="190.143,279,0,0" Command="{Binding AddCommand}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="191" RenderTransformOrigin="0.514,0.3" Click="Button_Click"/>
+        <Button Content="Удалить пункт выдачи" Height="31" FontSize="15" Background="#e63946" BorderBrush="#e63946" Margin="190.143,325,0,0" Command="{Binding DelCommand, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="191" RenderTransformOrigin="0.514,0.3" Click="Button_Click_2"/>
     </Grid>
 </Window>
 

@@ -19,10 +19,18 @@ namespace Production
     /// </summary>
     public partial class UserList : Window
     {
-        public UserList()
+        public UserList(string sql = "", Guid id = default)
         {
             InitializeComponent();
-            DataContext = new UserListViewModel(true, true, true);
+            if (string.IsNullOrEmpty(sql))
+            {
+                DataContext = new UserListViewModel(true, true, true);
+            }
+            else
+            {
+                DataContext = new UserListViewModel(false, true, false, sql, id);
+            }
+            _ = ShowDialog();
         }
     }
 }

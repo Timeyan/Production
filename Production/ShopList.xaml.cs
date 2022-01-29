@@ -22,6 +22,7 @@ namespace Production
         public ShopList()
         {
             InitializeComponent();
+            DataContext = new ShopListViewModel();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

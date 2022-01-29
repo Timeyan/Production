@@ -118,7 +118,7 @@ namespace Production
             }
         }
 
-        public UserListViewModel(bool isEmployee, bool isSeller, bool isCustomer)
+        public UserListViewModel(bool isEmployee, bool isSeller, bool isCustomer, string sql = "", Guid shopId = default)
         {
             Users = new ObservableCollection<User>();
             connectionString = "Data Source=DESKTOP-N9D0K7G;Initial Catalog=Production;Integrated Security=true;TrustServerCertificate=True";
@@ -129,10 +129,17 @@ namespace Production
                     "Email, PassportNumber, BirthDate, Adress, PostCode, Login from [User] join Role " +
                     "on IdRole = RoleID join Employee on UserId = IdUser");
 
-            if (isSeller) CreateSellerList("Select UserId, EmployeeId, RoleId, Role.Name, Employee.Name, LastName, " +
-                    "PhoneNumber, Email, PassportNumber, BirthDate, Employee.Adress, Employee.PostCode, " +
-                    "ShopId, Shop.Name, Shop.Adress, Shop.PostCode, Login from [User] join Role on IdRole = RoleID join Employee " +
-                    "on UserId = IdUser join Shop on ShopID = IdShop");
+            if (isSeller && string.IsNullOrEmpty(sql))
+            {
+                CreateSellerList("Select UserId, EmployeeId, RoleId, Role.Name, Employee.Name, LastName, " +
+                                 "PhoneNumber, Email, PassportNumber, BirthDate, Employee.Adress, Employee.PostCode, " +
+                                 "ShopId, Shop.Name, Shop.Adress, Shop.PostCode, Login from [User] join Role " +
+                                 "on IdRole = RoleID join Employee on UserId = IdUser join Shop on ShopID = IdShop");
+            }
+            else
+            {
+                CreateSellerList(sql, shopId: shopId);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -228,7 +235,7 @@ namespace Production
                 }
             }
         }
-        private void CreateSellerList(string sql, string login = "")
+        private void CreateSellerList(string sql, string login = "", Guid shopId = default)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -237,6 +244,10 @@ namespace Production
                 if (login != "")
                 {
                     _ = command.Parameters.Add(new SqlParameter { ParameterName = "@login", Value = login, SqlDbType = SqlDbType.VarChar });
+                } else if (shopId != default)
+                {
+                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@shop", Value = shopId, 
+                                                                  SqlDbType = SqlDbType.UniqueIdentifier });
                 }
                 SqlDataReader reader = command.ExecuteReader();
                 if (reader.HasRows)
