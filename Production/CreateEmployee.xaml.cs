@@ -25,12 +25,11 @@ namespace Production
         private bool isCorrect = true;
         public bool IsSaving { get; set; } = false;
 
-        readonly string connectionString;
+        private readonly string connectionString;
         Brush defaultBackground;
-        private string login;
-        private string role;
-        public string Role => role;
-        public string Login => login;
+
+        public string Role { get; private set; }
+        public string Login { get; private set; }
         public CreateEmployee()
         {
             InitializeComponent();
@@ -78,13 +77,13 @@ namespace Production
                 string passport = TextBoxPassport.Text;
                 string adress = TextBoxAdress.Text;
                 string postCode = TextBoxPostCode.Text;
-                login = TextBoxLogin.Text;
+                Login = TextBoxLogin.Text;
                 string password = TextBoxPassword.Text;
-                role = (string)TextBoxRole.SelectedValue;
+                Role = (string)TextBoxRole.SelectedValue;
                 string shop = (string)TextBoxShop.SelectedValue;
                 if (name == "" || lastName == "" || phone == "" || email == ""
-                    || passport == "" || adress == "" || postCode == "" || login == "" 
-                    || password == "" || role == "" || 
+                    || passport == "" || adress == "" || postCode == "" || Login == "" 
+                    || password == "" || Role == "" || 
                     BirthDatePicker.SelectedDate == null) throw new Exception("Должны быть заполнены все поля");
                 DateTime birthDate = (DateTime)BirthDatePicker.SelectedDate;
                 if (!isCorrect) throw new Exception("Не все поля заполнены корректно");
@@ -107,9 +106,9 @@ namespace Production
                     command.Parameters.Add(new SqlParameter { ParameterName = "@birthDate", Value = birthDate, SqlDbType = SqlDbType.Date });
                     command.Parameters.Add(new SqlParameter { ParameterName = "@address", Value = adress, SqlDbType = SqlDbType.NVarChar });
                     command.Parameters.Add(new SqlParameter { ParameterName = "@postcode", Value = postCode, SqlDbType = SqlDbType.VarChar });
-                    command.Parameters.Add(new SqlParameter { ParameterName = "@login", Value = login, SqlDbType = SqlDbType.VarChar });
+                    command.Parameters.Add(new SqlParameter { ParameterName = "@login", Value = Login, SqlDbType = SqlDbType.VarChar });
                     command.Parameters.Add(new SqlParameter { ParameterName = "@password", Value = password, SqlDbType = SqlDbType.VarChar });
-                    command.Parameters.Add(new SqlParameter { ParameterName = "@role", Value = role, SqlDbType = SqlDbType.NVarChar });
+                    command.Parameters.Add(new SqlParameter { ParameterName = "@role", Value = Role, SqlDbType = SqlDbType.NVarChar });
                     command.Parameters.Add(new SqlParameter { ParameterName = "@shop", Value = shop, SqlDbType = SqlDbType.NVarChar });
 
                     _ = await command.ExecuteNonQueryAsync();

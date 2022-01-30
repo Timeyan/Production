@@ -23,7 +23,7 @@
             <StackPanel Margin="-0.286,-0.286,0.571,0.286">
                 <TextBlock x:Name="Warn" FontSize="20" Margin="10,10,10.286,0" TextAlignment="Left"/>
                 <Grid VerticalAlignment="Bottom" Margin="10,13,0,100" Height="39">
-                    <Button HorizontalAlignment="Left" Content="Уволить" Width="95" FontSize="15" Background="#e63946" BorderBrush="#e63946" Click="EnterClick" Margin="117,10,0,-3"/>
+                    <Button HorizontalAlignment="Left" Content="Удалить" Width="95" FontSize="15" Background="#e63946" BorderBrush="#e63946" Click="EnterClick" Margin="117,10,0,-3"/>
                     <Button HorizontalAlignment="Right" IsCancel="True" Content="Отмена" Width="89" FontSize="15" Margin="0,10,114.286,-3" Style="{StaticResource MaterialDesignFlatDarkButton}" Foreground="#FF457B9D" Click="EnterClickReg" RenderTransformOrigin="0.384,2.329"/>
                 </Grid>
             </StackPanel>

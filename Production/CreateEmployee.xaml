@@ -17,12 +17,15 @@
                 <GradientStop Color="#FFA8DADC" Offset="0.49"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <Border MinWidth="300" MaxWidth="500" Margin="20,29,17.858,28.714" Background="#a8dadc" VerticalAlignment="Center" Padding="10" CornerRadius="20" MinHeight="250" MaxHeight="500" Height="492">
+        <Border MinWidth="300" MaxWidth="500" Margin="20,29,17.858,28.714" 
+                Background="#a8dadc" VerticalAlignment="Center" Padding="10" 
+                CornerRadius="20" MinHeight="250" MaxHeight="500" Height="492">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="20" Color="Gray" ShadowDepth="2"/>
             </Border.Effect>
             <StackPanel Margin="-0.286,-0.286,0.286,12">
-                <TextBlock Text="Новый сотрудник" FontSize="25" FontWeight="Bold" Margin="20 5 20 0" TextAlignment="Center"/>
+                <TextBlock Text="Новый сотрудник" FontSize="25" FontWeight="Bold" 
+                           Margin="20 5 20 0" TextAlignment="Center"/>
                 <Grid VerticalAlignment="Bottom" Margin="10,13,0,0" Height="44">
                     <TextBox x:Name="TextBoxName" HorizontalAlignment="Left" FontSize="15" 
                              materialDesign:HintAssist.Hint="Имя"
@@ -43,15 +46,29 @@
                              TextChanged="TextBoxPhone_TextChanged"
                              LostFocus="TextBoxPhone_LostFocus"
                              CaretBrush="#FF457B9D" Width="223"/>
-                    <TextBox x:Name="TextBoxEmail" HorizontalAlignment="Right" Margin="0,0,10,0" FontSize="15" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}" CaretBrush="#FF457B9D" Width="223"/>
+                    <TextBox x:Name="TextBoxEmail" HorizontalAlignment="Right" Margin="0,0,10,0" 
+                             FontSize="15" materialDesign:HintAssist.Hint="Email" 
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             CaretBrush="#FF457B9D" Width="223"/>
                 </Grid>
                 <Grid VerticalAlignment="Bottom" Margin="10,13,0,0" Height="56">
-                    <TextBox x:Name="TextBoxLogin" HorizontalAlignment="Left" Margin="0,0,0,10" FontSize="15" materialDesign:HintAssist.Hint="Логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" CaretBrush="#FF457B9D" Width="223"/>
-                    <TextBox x:Name="TextBoxPassword" HorizontalAlignment="Right" Margin="0,0,10,10" FontSize="15" materialDesign:HintAssist.Hint="Пароль" Style="{StaticResource MaterialDesignFloatingHintTextBox}" CaretBrush="#FF457B9D" Background="Transparent" SelectionBrush="#FF457B9D" Width="223"/>
+                    <TextBox x:Name="TextBoxLogin" HorizontalAlignment="Left" Margin="0,0,0,10" 
+                             FontSize="15" materialDesign:HintAssist.Hint="Логин" 
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             CaretBrush="#FF457B9D" Width="223"/>
+                    <TextBox x:Name="TextBoxPassword" HorizontalAlignment="Right" Margin="0,0,10,10" 
+                             FontSize="15" materialDesign:HintAssist.Hint="Пароль" 
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             CaretBrush="#FF457B9D" Background="Transparent" 
+                             SelectionBrush="#FF457B9D" Width="223"/>
                 </Grid>
                 <Grid VerticalAlignment="Bottom" Margin="10,13,0,0" Height="44">
-                    <ComboBox x:Name="TextBoxRole" HorizontalAlignment="Left" Margin="0,0,10,0" FontSize="15" materialDesign:HintAssist.Hint="Должность" Width="223" IsEditable="True" SelectionChanged="RoleChange"/>
-                    <ComboBox x:Name="TextBoxShop" HorizontalAlignment="Right" Margin="0,0,10,0" FontSize="15" materialDesign:HintAssist.Hint="Магазин" Width="223" IsEnabled="False" IsEditable="True"/>
+                    <ComboBox x:Name="TextBoxRole" HorizontalAlignment="Left" Margin="0,0,10,0" 
+                              FontSize="15" materialDesign:HintAssist.Hint="Должность" Width="223" 
+                              IsEditable="True" SelectionChanged="RoleChange"/>
+                    <ComboBox x:Name="TextBoxShop" HorizontalAlignment="Right" Margin="0,0,10,0" 
+                              FontSize="15" materialDesign:HintAssist.Hint="Магазин" Width="223" 
+                              IsEnabled="False" IsEditable="True"/>
                 </Grid>
                 <Grid VerticalAlignment="Bottom" Margin="10,13,0,0" Height="44">
                     <TextBox x:Name="TextBoxPassport" HorizontalAlignment="Left" 
@@ -62,7 +79,10 @@
                              FontSize="15" materialDesign:HintAssist.Hint="Паспорт" 
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                              CaretBrush="#FF457B9D" Width="223"/>
-                    <DatePicker x:Name="BirthDatePicker" IsDropDownOpen="False" SelectedDateFormat="Short" HorizontalAlignment="Right" Margin="0,7,10,0" FontSize="15" materialDesign:HintAssist.Hint="Дата рождения" Width="223" Height="37" FirstDayOfWeek="Monday"/>
+                    <DatePicker x:Name="BirthDatePicker" IsDropDownOpen="False" SelectedDateFormat="Short" 
+                                HorizontalAlignment="Right" Margin="0,7,10,0" FontSize="15" 
+                                materialDesign:HintAssist.Hint="Дата рождения" Width="223" Height="37" 
+                                FirstDayOfWeek="Monday"/>
                     <!--<ComboBox x:Name="TextBoxType" HorizontalAlignment="Right" Margin="0,0,10,0" FontSize="15" materialDesign:HintAssist.Hint="Категория" Width="223">
                         <TextBlock>Аудиотехника</TextBlock>
                         <TextBlock>Видеотехника</TextBlock>

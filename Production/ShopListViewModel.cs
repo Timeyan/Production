@@ -46,14 +46,17 @@ namespace Production
                 return changeCommand ??
                     (changeCommand = new RelayCommand(obj =>
                     {
-                        if (selectedShop.EmployeeList != null && selectedShop.EmployeeList.Count != 0)
+                        if (selectedShop != null)
                         {
-                            UserList userList = new UserList(sql: "Select UserId, EmployeeId, RoleId, Role.Name, " +
-                                            "Employee.Name, LastName, PhoneNumber, Email, PassportNumber, BirthDate, " +
-                                            "Employee.Adress, Employee.PostCode, ShopId, Shop.Name, Shop.Adress, " +
-                                            "Shop.PostCode, Login from [User] join Role on IdRole = RoleID join Employee " +
-                                            "on UserId = IdUser join Shop on ShopID = IdShop where ShopId = @shop", 
-                                            id: selectedShop.Id);
+                            if (selectedShop.EmployeeList.Count != 0)
+                            {
+                                UserList userList = new UserList(sql: "Select UserId, EmployeeId, RoleId, Role.Name, " +
+                                                "Employee.Name, LastName, PhoneNumber, Email, PassportNumber, BirthDate, " +
+                                                "Employee.Adress, Employee.PostCode, ShopId, Shop.Name, Shop.Adress, " +
+                                                "Shop.PostCode, Login from [User] join Role on IdRole = RoleID join Employee " +
+                                                "on UserId = IdUser join Shop on ShopID = IdShop where ShopId = @shop",
+                                                id: selectedShop.Id);
+                            }
                         }
                     }));
             }
@@ -68,12 +71,12 @@ namespace Production
                     {
                         if (selectedShop != null)
                         {
-                            AcceptWindow deleteShop = new AcceptWindow(warning: $"Вы действительно хотите уволить {selectedShop.Name}");
+                            AcceptWindow deleteShop = new AcceptWindow(warning: $"Подтверждение удаления {selectedShop.Name}");
                             if (deleteShop.ShowDialog() == true)
                             {
                                 try
                                 {
-                                    string sqlProc = "delete from Employee where IdUser = @id delete from [User] where UserID = @id";
+                                    string sqlProc = "delete from Shop where shopId = @id";
                                     using (SqlConnection connection = new SqlConnection(connectionString))
                                     {
                                         connection.Open();

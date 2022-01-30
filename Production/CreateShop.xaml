@@ -35,10 +35,7 @@
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                              CaretBrush="#FF457B9D" Width="223"/>
                     <ComboBox x:Name="TextBoxSellers" HorizontalAlignment="Right" Margin="0,0,10,0" 
-                              FontSize="15" materialDesign:HintAssist.Hint="Сотрудники" Width="223">
-                        <TextBlock>Аудиотехника</TextBlock>
-                        <TextBlock>Видеотехника</TextBlock>
-                    </ComboBox>
+                              FontSize="15" materialDesign:HintAssist.Hint="Сотрудники" Width="223"/>
                 </Grid>
                 <Grid VerticalAlignment="Bottom" Margin="10,13,0,0" Height="56"/>
 
