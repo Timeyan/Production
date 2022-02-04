@@ -12,10 +12,10 @@ using System.Windows;
 
 namespace Production
 {
-    class ShopListViewModel : INotifyPropertyChanged
+    internal class ShopListViewModel : INotifyPropertyChanged
     {
         private Shop selectedShop;
-        readonly string connectionString;
+        private readonly string connectionString;
 
         public ObservableCollection<Shop> Shops { get; set; }
 
@@ -32,7 +32,11 @@ namespace Production
                         CreateShop createShop = new CreateShop();
                         if (createShop.IsSaving)
                         {
-                            CreateShopList();
+                            Shops.Add(new Shop());
+                            Shops.LastOrDefault().Id = createShop.Id;
+                            Shops.LastOrDefault().Name = createShop.Name;
+                            Shops.LastOrDefault().Adress = createShop.Adress;
+                            Shops.LastOrDefault().PostCode = createShop.PostCode;
                             SelectedShop = Shops.LastOrDefault();
                         }
                     }));
@@ -76,7 +80,7 @@ namespace Production
                             {
                                 try
                                 {
-                                    string sqlProc = "delete from Shop where shopId = @id";
+                                    string sqlProc = "delete from [Shop] where shopId = @id";
                                     using (SqlConnection connection = new SqlConnection(connectionString))
                                     {
                                         connection.Open();
@@ -91,7 +95,9 @@ namespace Production
 
                                         command.ExecuteNonQuery();
                                     }
-                                    Shops.Remove(Shops.FirstOrDefault(w => w.Id == selectedShop.Id));
+                                    Guid id = selectedShop.Id;
+                                    selectedShop = null;
+                                    Shops.Remove(Shops.FirstOrDefault(w => w.Id == id));
 
                                 }
                                 catch (Exception ex)
@@ -110,44 +116,50 @@ namespace Production
             set
             {
                 selectedShop = value;
-                selectedShop.EmployeeList = new ObservableCollection<string>();
-                string sql = "select EmployeeId, Name, LastName from Employee where IdShop = @shop";
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                if (selectedShop != null)
                 {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(sql, connection);
-                    _ = command.Parameters.Add(new SqlParameter
+                    if (selectedShop.EmployeeList == null)
                     {
-                        ParameterName = "@shop",
-                        Value = selectedShop.Id,
-                        SqlDbType = SqlDbType.UniqueIdentifier
-                    });
-                    SqlDataReader reader = command.ExecuteReader();
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            selectedShop.EmployeeList.Add((string)reader.GetValue(2) + " " + (string)reader.GetValue(1));
-                        }
-                        reader.Close();
+                        selectedShop.EmployeeList = new ObservableCollection<string>();
                     }
-                }
-                switch (selectedShop.EmployeeList.Count)
-                {
-                    case 0:
-                        break;
-                    case 1:
-                        selectedShop.First = selectedShop.EmployeeList[0];
-                        goto case 0;
-                    case 2:
-                        selectedShop.Second = selectedShop.EmployeeList[1];
-                        goto case 1;
-                    case 3:
-                        selectedShop.Third = selectedShop.EmployeeList[2];
-                        goto case 2;
-                    default:
-                        selectedShop.Ellipsis = "...";
-                        goto case 3;
+                    string sql = "select EmployeeId, Name, LastName from Employee where IdShop = @shop";
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        SqlCommand command = new SqlCommand(sql, connection);
+                        _ = command.Parameters.Add(new SqlParameter
+                        {
+                            ParameterName = "@shop",
+                            Value = selectedShop.Id,
+                            SqlDbType = SqlDbType.UniqueIdentifier
+                        });
+                        SqlDataReader reader = command.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                selectedShop.EmployeeList.Add((string)reader.GetValue(2) + " " + (string)reader.GetValue(1));
+                            }
+                            reader.Close();
+                        }
+                    }
+                    switch (selectedShop.EmployeeList.Count)
+                    {
+                        case 0:
+                            break;
+                        case 1:
+                            selectedShop.First = selectedShop.EmployeeList[0];
+                            goto case 0;
+                        case 2:
+                            selectedShop.Second = selectedShop.EmployeeList[1];
+                            goto case 1;
+                        case 3:
+                            selectedShop.Third = selectedShop.EmployeeList[2];
+                            goto case 2;
+                        default:
+                            selectedShop.Ellipsis = "...";
+                            goto case 3;
+                    }
                 }
                 OnPropertyChanged("SelectedShop");
             }

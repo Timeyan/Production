@@ -231,6 +231,11 @@
     <Compile Include="MenegerMenuWindow.xaml.cs">
       <DependentUpon>MenegerMenuWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Order.cs" />
+    <Compile Include="OrderList.xaml.cs">
+      <DependentUpon>OrderList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OrderListViewModel.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="ProductList.xaml.cs">
       <DependentUpon>ProductList.xaml</DependentUpon>
@@ -302,6 +307,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MenegerMenuWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OrderList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

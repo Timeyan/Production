@@ -32,6 +32,7 @@ namespace Production
                         {
                             Products.Clear();
                             CreateProductList();
+                            SelectedProduct = Products.LastOrDefault();
                         }
                     }));
             }

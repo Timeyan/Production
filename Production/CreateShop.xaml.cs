@@ -24,6 +24,14 @@ namespace Production
         private bool isSaving = false;
         public bool IsSaving { get { return isSaving; } set { isSaving = value; } }
         string connectionString;
+
+        public string Name { get; set; }
+
+        public string Adress { get; set; }
+
+        public string PostCode { get; set; }
+        public Guid Id { get; set; }
+
         public CreateShop()
         {
             InitializeComponent();
@@ -57,27 +65,40 @@ namespace Production
         {
             try
             {
-                string name = TextBoxName.Text;
-                string adress = TextBoxAdress.Text;
-                string postCode = TextBoxPostCode.Text;
-                List<string> sellers = new List<string>
-                {
-                    TextBoxSellers.Text
-                };
-                if (name == "" || adress == "" || postCode == "") throw new Exception("Не все поля заполнены");
+                Name = TextBoxName.Text;
+                Adress = TextBoxAdress.Text;
+                PostCode = TextBoxPostCode.Text;
+                if (Name == "" || Adress == "" || PostCode == "") throw new Exception("Не все поля заполнены");
 
-                string sqlProc = "insert into [Shop] values(@name, @adress, @postCode)";
+                string sqlProc = "insert into [Shop] values(NEWID(), @name, @adress, @postCode)";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     await connection.OpenAsync();
 
                     SqlCommand command = new SqlCommand(sqlProc, connection);
-                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@name", Value = name, SqlDbType = SqlDbType.NVarChar });
-                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@adress", Value = adress, SqlDbType = SqlDbType.NVarChar });
-                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@postCode", Value = postCode, SqlDbType = SqlDbType.VarChar });
+                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@name", Value = Name, SqlDbType = SqlDbType.NVarChar });
+                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@adress", Value = Adress, SqlDbType = SqlDbType.NVarChar });
+                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@postCode", Value = PostCode, SqlDbType = SqlDbType.VarChar });
                     //command.Parameters.Add(new SqlParameter { ParameterName = "@type", Value = type, SqlDbType = SqlDbType.NVarChar });
 
                     _ = await command.ExecuteNonQueryAsync();
+
+                    command.CommandText = "select ShopId from [Shop] where Name = @name";
+                    command.Parameters.Clear();
+                    _ = command.Parameters.Add(new SqlParameter
+                    {
+                        ParameterName = "@name",
+                        Value = Name,
+                        SqlDbType = SqlDbType.NVarChar
+                    });
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        _ = reader.Read();
+                        Id = (Guid)reader.GetValue(0);
+                        reader.Close();
+                    }
+
                 }
                 _ = MessageBox.Show("Данные успешно сохранены");
                 IsSaving = true;
