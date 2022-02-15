@@ -151,8 +151,8 @@ namespace Production
 
         private void CreateCustomerList()
         {
-            string sql = "Select UserId, CustomerId, RoleId, Role.Name, Customer.Name, LastName, PhoneNumber, Email " +
-                            "Login, from [User] join Role on IdRole = RoleID join Customer on UserId = IdUser";
+            string sql = "Select UserId, CustomerId, RoleId, Role.Name, Customer.Name, LastName, PhoneNumber, Email, " +
+                            "Login from [User] join Role on IdRole = RoleID join Customer on UserId = IdUser";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();

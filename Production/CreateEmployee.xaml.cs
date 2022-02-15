@@ -98,18 +98,18 @@ namespace Production
                     {
                         CommandType = CommandType.StoredProcedure
                     };
-                    command.Parameters.Add(new SqlParameter { ParameterName = "@name", Value = name, SqlDbType = SqlDbType.NVarChar });
-                    command.Parameters.Add(new SqlParameter { ParameterName = "@lastname", Value = lastName, SqlDbType = SqlDbType.NVarChar });
-                    command.Parameters.Add(new SqlParameter { ParameterName = "@phonenumber", Value = phone, SqlDbType = SqlDbType.VarChar });
-                    command.Parameters.Add(new SqlParameter { ParameterName = "@email", Value = email, SqlDbType = SqlDbType.VarChar });
-                    command.Parameters.Add(new SqlParameter { ParameterName = "@passportnumber", Value = passport, SqlDbType = SqlDbType.VarChar });
-                    command.Parameters.Add(new SqlParameter { ParameterName = "@birthDate", Value = birthDate, SqlDbType = SqlDbType.Date });
-                    command.Parameters.Add(new SqlParameter { ParameterName = "@address", Value = adress, SqlDbType = SqlDbType.NVarChar });
-                    command.Parameters.Add(new SqlParameter { ParameterName = "@postcode", Value = postCode, SqlDbType = SqlDbType.VarChar });
-                    command.Parameters.Add(new SqlParameter { ParameterName = "@login", Value = Login, SqlDbType = SqlDbType.VarChar });
-                    command.Parameters.Add(new SqlParameter { ParameterName = "@password", Value = password, SqlDbType = SqlDbType.VarChar });
-                    command.Parameters.Add(new SqlParameter { ParameterName = "@role", Value = Role, SqlDbType = SqlDbType.NVarChar });
-                    command.Parameters.Add(new SqlParameter { ParameterName = "@shop", Value = shop, SqlDbType = SqlDbType.NVarChar });
+                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@name", Value = name, SqlDbType = SqlDbType.NVarChar });
+                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@lastname", Value = lastName, SqlDbType = SqlDbType.NVarChar });
+                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@phonenumber", Value = phone, SqlDbType = SqlDbType.VarChar });
+                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@email", Value = email, SqlDbType = SqlDbType.VarChar });
+                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@passportnumber", Value = passport, SqlDbType = SqlDbType.VarChar });
+                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@birthDate", Value = birthDate, SqlDbType = SqlDbType.Date });
+                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@address", Value = adress, SqlDbType = SqlDbType.NVarChar });
+                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@postcode", Value = postCode, SqlDbType = SqlDbType.VarChar });
+                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@login", Value = Login, SqlDbType = SqlDbType.VarChar });
+                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@password", Value = password, SqlDbType = SqlDbType.VarChar });
+                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@role", Value = Role, SqlDbType = SqlDbType.NVarChar });
+                    _ = command.Parameters.Add(new SqlParameter { ParameterName = "@shop", Value = shop, SqlDbType = SqlDbType.NVarChar });
 
                     _ = await command.ExecuteNonQueryAsync();
 

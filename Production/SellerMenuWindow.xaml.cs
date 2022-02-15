@@ -27,7 +27,16 @@ namespace Production
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            OrderList orderList = new OrderList();
+            orderList.Show();
+            Close();
+        }
 
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            ProductList productList = new ProductList();
+            productList.Show();
+            Close();
         }
     }
 }

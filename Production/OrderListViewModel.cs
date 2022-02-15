@@ -22,6 +22,7 @@ namespace Production
         private RelayCommand addCommand;
         private RelayCommand changeCommand;
         private RelayCommand delCommand;
+        private RelayCommand clickList;
         public RelayCommand AddCommand
         {
             get
@@ -29,7 +30,7 @@ namespace Production
                 return addCommand ??
                     (addCommand = new RelayCommand(obj =>
                     {
-                        CreateEmployee createEmployee = new CreateEmployee();
+                        /*CreateEmployee createEmployee = new CreateEmployee();
                         if (createEmployee.IsSaving)
                         {
                             if (createEmployee.Role == "Seller")
@@ -48,10 +49,22 @@ namespace Production
                                                    "on UserId = IdUser where Login = @login", createEmployee.Login);
                             }
                             SelectedOrder = Orders.LastOrDefault();
-                        }
+                        }*/
                     }));
             }
         }
+
+        /*public RelayCommand ClickList
+        {
+            get
+            {
+                return clickList ??
+                    (clickList = new RelayCommand(obj =>
+                    {
+                        _ = new OrderView(SelectedOrder);
+                    }));
+            }
+        }*/
 
         public RelayCommand ChangeCommand
         {
@@ -60,9 +73,9 @@ namespace Production
                 return changeCommand ??
                     (changeCommand = new RelayCommand(obj =>
                     {
-                        if (selectedUser != null)
+                        if (selectedOrder != null)
                         {
-                            ChangeEmployee changeEmployee = new ChangeEmployee(ref selectedUser);
+                            //ChangeEmployee changeEmployee = new ChangeEmployee(ref selectedOrder);
                         }
                     }));
             }
@@ -75,14 +88,14 @@ namespace Production
                 return delCommand ??
                     (delCommand = new RelayCommand(obj =>
                     {
-                        if (selectedUser != null)
+                        if (selectedOrder != null)
                         {
-                            AcceptWindow deleteUser = new AcceptWindow(warning: $"Вы действительно хотите уволить {selectedUser.Name}");
-                            if (deleteUser.ShowDialog() == true)
+                            AcceptWindow deleteOrder = new AcceptWindow(warning: $"Вы действительно хотите удалить заказ {selectedOrder.Number}");
+                            if (deleteOrder.ShowDialog() == true)
                             {
                                 try
                                 {
-                                    string sqlProc = "delete from Employee where IdUser = @id delete from [User] where UserID = @id";
+                                    string sqlProc = "delete from [Order] where OrderId = @id";
                                     using (SqlConnection connection = new SqlConnection(connectionString))
                                     {
                                         connection.Open();
@@ -91,13 +104,13 @@ namespace Production
                                         command.Parameters.Add(new SqlParameter
                                         {
                                             ParameterName = "@id",
-                                            Value = SelectedUser.Id,
+                                            Value = SelectedOrder.Id,
                                             SqlDbType = SqlDbType.UniqueIdentifier
                                         });
 
                                         command.ExecuteNonQuery();
                                     }
-                                    Users.Remove(Users.FirstOrDefault(w => w.Id == selectedUser.Id));
+                                    Orders.Remove(Orders.FirstOrDefault(w => w.Id == selectedOrder.Id));
 
                                 }
                                 catch (Exception ex)
@@ -112,22 +125,52 @@ namespace Production
 
         public Order SelectedOrder
         {
-            get { return selectedOrder; }
+            get => selectedOrder;
             set
             {
                 selectedOrder = value;
+                selectedOrder.ProductList = new ObservableCollection<Prod>();
+                string sql = "select ProductID, Quantity, Name, SerialNumber, Price from Product " +
+                             "join ProductOrder on ProductID = idProduct " +
+                             "join [Order] on idOrder = OrderID where OrderID = @id";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sql, connection);
+                    _ = command.Parameters.Add(new SqlParameter
+                    {
+                        ParameterName = "@id",
+                        Value = selectedOrder.Id,
+                        SqlDbType = SqlDbType.UniqueIdentifier
+                    });
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            selectedOrder.ProductList.Add(new Prod());
+                            selectedOrder.ProductList.LastOrDefault().Id = (Guid)reader.GetValue(0);
+                            selectedOrder.ProductList.LastOrDefault().Quantity = (int)reader.GetValue(1);
+                            selectedOrder.ProductList.LastOrDefault().Name = (string)reader.GetValue(2);
+                            selectedOrder.ProductList.LastOrDefault().Number = (string)reader.GetValue(3);
+                            selectedOrder.ProductList.LastOrDefault().Price = (decimal)reader.GetValue(4);
+                        }
+
+                        reader.Close();
+                    }
+                }
                 OnPropertyChanged("SelectedOrder");
             }
         }
 
-        public OrderListViewModel(bool isEmployee, bool isSeller, bool isCustomer, string sql = "", Guid shopId = default)
+        public OrderListViewModel()
         {
             Orders = new ObservableCollection<Order>();
             connectionString = "Data Source=DESKTOP-N9D0K7G;Initial Catalog=Production;Integrated Security=true;TrustServerCertificate=True";
 
-            if (isCustomer) CreateCustomerList();
+            CreateOrderList();
 
-            if (isEmployee) CreateEmployeeList("Select UserId, EmployeeId, RoleId, Role.Name, Employee.Name, LastName, PhoneNumber, " +
+            /*if (isEmployee) CreateEmployeeList("Select UserId, EmployeeId, RoleId, Role.Name, Employee.Name, LastName, PhoneNumber, " +
                     "Email, PassportNumber, BirthDate, Adress, PostCode, Login from [User] join Role " +
                     "on IdRole = RoleID join Employee on UserId = IdUser");
 
@@ -141,7 +184,7 @@ namespace Production
             else
             {
                 CreateSellerList(sql, shopId: shopId);
-            }
+            }*/
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -151,10 +194,12 @@ namespace Production
         }
 
 
-        private void CreateCustomerList()
+        private void CreateOrderList()
         {
-            string sql = "Select UserId, CustomerId, RoleId, Role.Name, Customer.Name, LastName, PhoneNumber, Email " +
-                            "Login, from [User] join Role on IdRole = RoleID join Customer on UserId = IdUser";
+            string sql = "Select OrderId, idCustomer, Customer.Name, Customer.LastName, Customer.PhoneNumber, " +
+                            "OrderDate, OrderState.Name, totalPrice, idShop, Shop.Name " +
+                            "from [Order] join Customer on IdCustomer = CustomerID join OrderState on StateId = IdState " +
+                            "join Shop on ShopId = IdShop";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -164,27 +209,24 @@ namespace Production
                 {
                     while (reader.Read())
                     {
-                        Users.Add(new User());
-                        Users.LastOrDefault().Id = (Guid)reader.GetValue(0);
-                        Users.LastOrDefault().CustomerId = (Guid)reader.GetValue(1);
-                        Users.LastOrDefault().RoleId = (Guid)reader.GetValue(2);
-                        if ((string)reader.GetValue(3) == "Customer")
-                        {
-                            Users.LastOrDefault().Role = "Клиент";
-                            Users.LastOrDefault().RoleData = "Customer";
-                        }
-                        Users.LastOrDefault().Name = (string)reader.GetValue(4);
-                        Users.LastOrDefault().LastName = (string)reader.GetValue(5);
-                        Users.LastOrDefault().PhoneNumber = (string)reader.GetValue(6);
-                        Users.LastOrDefault().Email = (string)reader.GetValue(7);
-                        Users.LastOrDefault().Login = (string)reader.GetValue(8);
+                        Orders.Add(new Order());
+                        Orders.LastOrDefault().Id = (Guid)reader.GetValue(0);
+                        Orders.LastOrDefault().Number = Math.Abs(Orders.LastOrDefault().Id.GetHashCode());
+                        Orders.LastOrDefault().CustomerId = (Guid)reader.GetValue(1);
+                        Orders.LastOrDefault().CustomerName = (string)reader.GetValue(2) + " " + (string)reader.GetValue(3);
+                        Orders.LastOrDefault().Tel = (string)reader.GetValue(4);
+                        Orders.LastOrDefault().OrderDate = (DateTime)reader.GetValue(5);
+                        Orders.LastOrDefault().State = (string)reader.GetValue(6);
+                        Orders.LastOrDefault().TotalPrice = (Decimal)reader.GetValue(7);
+                        Orders.LastOrDefault().ShopId = (Guid)reader.GetValue(8);
+                        Orders.LastOrDefault().ShopName = (string)reader.GetValue(9);
                     }
 
                     reader.Close();
                 }
             }
         }
-        private void CreateEmployeeList(string sql, string login = "")
+        /*private void CreateEmployeeList(string sql, string login = "")
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -201,43 +243,43 @@ namespace Production
                     {
                         if ((string)reader.GetValue(3) != "Seller")
                         {
-                            Users.Add(new User());
-                            Users.LastOrDefault().Id = (Guid)reader.GetValue(0);
-                            Users.LastOrDefault().EmployeeId = (Guid)reader.GetValue(1);
-                            Users.LastOrDefault().RoleId = (Guid)reader.GetValue(2);
+                            Orders.Add(new Order());
+                            Orders.LastOrDefault().Id = (Guid)reader.GetValue(0);
+                            Orders.LastOrDefault().EmployeeId = (Guid)reader.GetValue(1);
+                            Orders.LastOrDefault().RoleId = (Guid)reader.GetValue(2);
                             string role = (string)reader.GetValue(3);
                             switch (role)
                             {
                                 case "Administrator":
-                                    Users.LastOrDefault().Role = "Администратор";
-                                    Users.LastOrDefault().RoleData = "Administrator";
+                                    Orders.LastOrDefault().Role = "Администратор";
+                                    Orders.LastOrDefault().RoleData = "Administrator";
                                     break;
                                 case "Meneger":
-                                    Users.LastOrDefault().Role = "Менеджер";
-                                    Users.LastOrDefault().RoleData = "Meneger";
+                                    Orders.LastOrDefault().Role = "Менеджер";
+                                    Orders.LastOrDefault().RoleData = "Meneger";
                                     break;
                             }
-                            Users.LastOrDefault().Name = (string)reader.GetValue(4);
-                            Users.LastOrDefault().LastName = (string)reader.GetValue(5);
-                            Users.LastOrDefault().PhoneNumber = (string)reader.GetValue(6);
-                            Users.LastOrDefault().Email = (string)reader.GetValue(7);
-                            Users.LastOrDefault().PassportNumberData = (string)reader.GetValue(8);
-                            Users.LastOrDefault().PassportNumber = "Паспорт: " + Users.LastOrDefault().PassportNumberData;
-                            Users.LastOrDefault().BirthDate = (DateTime)reader.GetValue(9);
-                            Users.LastOrDefault().BirthDateStr = "Дата рождения: " + Users.LastOrDefault().BirthDate.ToShortDateString().ToString();
-                            Users.LastOrDefault().AdressData = (string)reader.GetValue(10);
-                            Users.LastOrDefault().Adress = "Адрес: " + Users.LastOrDefault().AdressData;
-                            Users.LastOrDefault().PostCodeData = (string)reader.GetValue(11);
-                            Users.LastOrDefault().PostCode = "Индекс: " + Users.LastOrDefault().PostCodeData;
-                            Users.LastOrDefault().Login = (string)reader.GetValue(12);
+                            Orders.LastOrDefault().Name = (string)reader.GetValue(4);
+                            Orders.LastOrDefault().LastName = (string)reader.GetValue(5);
+                            Orders.LastOrDefault().PhoneNumber = (string)reader.GetValue(6);
+                            Orders.LastOrDefault().Email = (string)reader.GetValue(7);
+                            Orders.LastOrDefault().PassportNumberData = (string)reader.GetValue(8);
+                            Orders.LastOrDefault().PassportNumber = "Паспорт: " + Orders.LastOrDefault().PassportNumberData;
+                            Orders.LastOrDefault().BirthDate = (DateTime)reader.GetValue(9);
+                            Orders.LastOrDefault().BirthDateStr = "Дата рождения: " + Orders.LastOrDefault().BirthDate.ToShortDateString().ToString();
+                            Orders.LastOrDefault().AdressData = (string)reader.GetValue(10);
+                            Orders.LastOrDefault().Adress = "Адрес: " + Orders.LastOrDefault().AdressData;
+                            Orders.LastOrDefault().PostCodeData = (string)reader.GetValue(11);
+                            Orders.LastOrDefault().PostCode = "Индекс: " + Orders.LastOrDefault().PostCodeData;
+                            Orders.LastOrDefault().Login = (string)reader.GetValue(12);
                         }
                     }
 
                     reader.Close();
                 }
             }
-        }
-        private void CreateSellerList(string sql, string login = "", Guid shopId = default)
+        }*/
+        /*private void CreateSellerList(string sql, string login = "", Guid shopId = default)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -261,42 +303,42 @@ namespace Production
                 {
                     while (reader.Read())
                     {
-                        Users.Add(new User());
-                        Users.LastOrDefault().Id = (Guid)reader.GetValue(0);
-                        Users.LastOrDefault().EmployeeId = (Guid)reader.GetValue(1);
-                        Users.LastOrDefault().RoleId = (Guid)reader.GetValue(2);
-                        Users.LastOrDefault().Name = (string)reader.GetValue(4);
-                        Users.LastOrDefault().LastName = (string)reader.GetValue(5);
-                        Users.LastOrDefault().PhoneNumber = (string)reader.GetValue(6);
-                        Users.LastOrDefault().Email = (string)reader.GetValue(7);
-                        Users.LastOrDefault().PassportNumberData = (string)reader.GetValue(8);
-                        Users.LastOrDefault().PassportNumber = "Паспорт: " + Users.LastOrDefault().PassportNumberData;
-                        Users.LastOrDefault().BirthDate = (DateTime)reader.GetValue(9);
-                        Users.LastOrDefault().BirthDateStr = "Дата рождения: " + Users.LastOrDefault().BirthDate.ToShortDateString().ToString();
-                        Users.LastOrDefault().AdressData = (string)reader.GetValue(10);
-                        Users.LastOrDefault().Adress = "Адрес: " + Users.LastOrDefault().AdressData;
-                        Users.LastOrDefault().PostCodeData = (string)reader.GetValue(11);
-                        Users.LastOrDefault().PostCode = "Индекс: " + Users.LastOrDefault().PostCodeData;
-                        Users.LastOrDefault().Login = (string)reader.GetValue(16);
-                        Users.LastOrDefault().ShopId = (Guid)reader.GetValue(12);
-                        Users.LastOrDefault().ShopObj = new Shop
+                        Orders.Add(new Order());
+                        Orders.LastOrDefault().Id = (Guid)reader.GetValue(0);
+                        Orders.LastOrDefault().EmployeeId = (Guid)reader.GetValue(1);
+                        Orders.LastOrDefault().RoleId = (Guid)reader.GetValue(2);
+                        Orders.LastOrDefault().Name = (string)reader.GetValue(4);
+                        Orders.LastOrDefault().LastName = (string)reader.GetValue(5);
+                        Orders.LastOrDefault().PhoneNumber = (string)reader.GetValue(6);
+                        Orders.LastOrDefault().Email = (string)reader.GetValue(7);
+                        Orders.LastOrDefault().PassportNumberData = (string)reader.GetValue(8);
+                        Orders.LastOrDefault().PassportNumber = "Паспорт: " + Orders.LastOrDefault().PassportNumberData;
+                        Orders.LastOrDefault().BirthDate = (DateTime)reader.GetValue(9);
+                        Orders.LastOrDefault().BirthDateStr = "Дата рождения: " + Orders.LastOrDefault().BirthDate.ToShortDateString().ToString();
+                        Orders.LastOrDefault().AdressData = (string)reader.GetValue(10);
+                        Orders.LastOrDefault().Adress = "Адрес: " + Orders.LastOrDefault().AdressData;
+                        Orders.LastOrDefault().PostCodeData = (string)reader.GetValue(11);
+                        Orders.LastOrDefault().PostCode = "Индекс: " + Orders.LastOrDefault().PostCodeData;
+                        Orders.LastOrDefault().Login = (string)reader.GetValue(16);
+                        Orders.LastOrDefault().ShopId = (Guid)reader.GetValue(12);
+                        Orders.LastOrDefault().ShopObj = new Shop
                         {
-                            Id = Users.LastOrDefault().ShopId,
+                            Id = Orders.LastOrDefault().ShopId,
                             Name = (string)reader.GetValue(13),
                             Adress = (string)reader.GetValue(14),
                             PostCode = (string)reader.GetValue(15)
                         };
                         if ((string)reader.GetValue(3) == "Seller")
                         {
-                            Users.LastOrDefault().Role = "Продавец в магазине \"" +
-                                Users.LastOrDefault().ShopObj.Name + "\"";
-                            Users.LastOrDefault().RoleData = "Seller";
+                            Orders.LastOrDefault().Role = "Продавец в магазине \"" +
+                                Orders.LastOrDefault().ShopObj.Name + "\"";
+                            Orders.LastOrDefault().RoleData = "Seller";
                         }
                     }
 
                     reader.Close();
                 }
             }
-        }
+        }*/
     }
 }

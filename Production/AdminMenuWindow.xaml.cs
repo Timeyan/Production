@@ -31,5 +31,33 @@ namespace Production
             productList.Show();
             Close();
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            UserList userList = new UserList();
+            userList.Show();
+            Close();
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            OrderList orderList = new OrderList();
+            orderList.Show();
+            Close();
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            ShopList shopList = new ShopList();
+            shopList.Show();
+            Close();
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            EmlpoyeeList emlpoyeeList = new EmlpoyeeList();
+            emlpoyeeList.Show();
+            Close();
+        }
     }
 }

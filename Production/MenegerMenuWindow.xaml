@@ -24,7 +24,7 @@
                 <TextBlock x:Name="menegerName" Text="" FontSize="25" FontWeight="Bold" Margin="20 5 20 0" TextAlignment="Left"/>
                 <TextBlock Text="Менеджер" FontSize="14" FontWeight="Light" Margin="20 5 20 0" TextAlignment="Left"/>
                 <Grid VerticalAlignment="Bottom" Margin="10,13,0,5" Height="39">
-                    <Button HorizontalAlignment="Left" Content="Товары" Width="83" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="10,3,0,4"/>
+                    <Button HorizontalAlignment="Left" Content="Товары" Width="83" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="10,3,0,4" Click="Button_Click"/>
                     <Button HorizontalAlignment="Right" Content="Заказы" Width="86" FontSize="15" Margin="0,3,37.857,4" Background="#FF457B9D" BorderBrush="#FF457B9D"/>
                 </Grid>
                 <Grid VerticalAlignment="Bottom" Margin="10,5,0,10" Height="39">

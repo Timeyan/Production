@@ -24,13 +24,17 @@
                 <TextBlock x:Name="menegerName" Text="" FontSize="25" FontWeight="Bold" Margin="20 5 20 0" TextAlignment="Left"/>
                 <TextBlock Text="Администратор" FontSize="14" FontWeight="Light" Margin="20 5 20 0" TextAlignment="Left"/>
                 <Grid VerticalAlignment="Bottom" Margin="10,13,0,5" Height="39">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="364*"/>
+                        <ColumnDefinition Width="9*"/>
+                    </Grid.ColumnDefinitions>
                     <Button HorizontalAlignment="Left" Content="Товары" Width="83" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="47,3,0,4" Click="Button_Click"/>
-                    <Button HorizontalAlignment="Right" Content="Все пользователи" Width="163" FontSize="15" Margin="0,3,51.429,4" Background="#FF457B9D" BorderBrush="#FF457B9D"/>
+                    <Button HorizontalAlignment="Right" Content="Все пользователи" Width="163" FontSize="15" Margin="0,3,42.429,4" Background="#FF457B9D" BorderBrush="#FF457B9D" Click="Button_Click_1"/>
                 </Grid>
                 <Grid VerticalAlignment="Bottom" Margin="10,5,0,10" Height="39">
-                    <Button Content="Заявки" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="10,3,280.429,4"/>
-                    <Button Content="Магазины" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="110,3,158.429,4"/>
-                    <Button Content="Сотрудники" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="232,3,23.429,4"/>
+                    <Button Content="Заказы" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="10,3,273.429,4" Click="Button_Click_2"/>
+                    <Button Content="Магазины" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="113,3,146.429,4" Click="Button_Click_3"/>
+                    <Button Content="Сотрудники" FontSize="15" Background="#FF457B9D" BorderBrush="#FF457B9D" Margin="246,3,0.429,4" Click="Button_Click_4"/>
                 </Grid>
             </StackPanel>
         </Border>

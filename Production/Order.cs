@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Production;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -6,24 +7,85 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Production
 {
+    public class Prod : INotifyPropertyChanged
+    {
+        public Guid Id { get; set; }
+        private string name;
+        private string number;
+        private int quantity;
+        private decimal price;
+        public string Number
+        {
+            get => number;
+            set
+            {
+                number = value;
+                OnPropertyChanged("Number");
+            }
+        }
+        public string Name
+        {
+            get => name;
+            set
+            {
+                name = value;
+                OnPropertyChanged("Name");
+            }
+        }
 
-    class Order : INotifyPropertyChanged
+        public int Quantity
+        {
+            get => quantity;
+            set
+            {
+                quantity = value;
+                OnPropertyChanged("Quantity");
+            }
+        }
+        public decimal Price
+        {
+            get => price;
+            set
+            {
+                price = value;
+                OnPropertyChanged("Price");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+    };
+    public class Order : INotifyPropertyChanged
     {
         private Guid id;
+        private int number;
         private DateTime orderDate;
         private string state;
-        private int totalPrice;
+        private Decimal totalPrice;
         private Guid customerId;
         private string customerName;
         private string tel;
         private Guid shopId;
         private string shopName;
-        private Dictionary<Guid, int> ProductList { get; set; }
+        private ObservableCollection<Prod> productList;
 
-
+        public ObservableCollection<Prod> ProductList
+        {
+            get => productList;
+            set
+            {
+                productList = value;
+                OnPropertyChanged("ProductList");
+            }
+        }
         public Guid Id
         {
             get => id;
@@ -33,6 +95,17 @@ namespace Production
                 OnPropertyChanged("Id");
             }
         }
+
+        public int Number
+        {
+            get => number;
+            set
+            {
+                number = value;
+                OnPropertyChanged("Number");
+            }
+        }
+
         public DateTime OrderDate
         {
             get => orderDate;
@@ -53,7 +126,7 @@ namespace Production
             }
         }
 
-        public int TotalPrice
+        public Decimal TotalPrice
         {
             get => totalPrice;
             set
@@ -120,5 +193,26 @@ namespace Production
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
+        /*private RelayCommand clickList;
+
+        public ICommand ClickList
+        {
+            get
+            {
+                if (clickList == null)
+                {
+                    clickList = new RelayCommand(PerformClickList);
+                }
+
+                return clickList;
+            }
+        }
+
+        private void PerformClickList(object commandParameter)
+        {
+            ProductList = new Dictionary<Guid, int>();
+            //_ = new OrderView(id, number, orderDate, state, totalPrice, customerId,
+                //customerName, tel, shopId, shopName, ProductList);
+        }*/
     }
 }

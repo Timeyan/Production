@@ -30,7 +30,9 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Border MinWidth="200" MaxWidth="800" MinHeight="200" MaxHeight="900" Margin="22,18,10,21.714" Background="#a8dadc" VerticalAlignment="Center" Padding="8" CornerRadius="20">
+        <Border MinWidth="200" MaxWidth="800" MinHeight="200" MaxHeight="900" 
+                Margin="22,18,10,21.714" Background="#a8dadc" VerticalAlignment="Center"
+                Padding="8" CornerRadius="20">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="20" Color="Gray" ShadowDepth="2"/>
             </Border.Effect>
