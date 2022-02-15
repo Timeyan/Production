@@ -18,6 +18,11 @@
 ### Архитектурная диаграмма (MVVM)
 [![Project-drawio.png](https://i.postimg.cc/KjBs7yNc/Project-drawio.png)](https://postimg.cc/dZQBvppg)
 
+## Тестирование
+Тестирование этого проекта было проведено методом "серого ящика", так как тестированием занимался сам разработчик.
+
+---
+
 ## Скриншоты реализации
 
 [![Enter.png](https://i.postimg.cc/26K71XNk/Enter.png)](https://postimg.cc/hzVdwsG6)
